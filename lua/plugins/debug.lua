@@ -1,11 +1,3 @@
--- debug.lua
---
--- Shows how to use the DAP plugin to debug your code.
---
--- Primarily focused on configuring the debugger for Go, but can
--- be extended to other languages as well. That's why it's called
--- kickstart.nvim and not kitchen-sink.nvim ;)
-
 return {
   {
     -- NOTE: Yes, you can install new plugins here!
@@ -17,6 +9,7 @@ return {
 
       -- Required dependency for nvim-dap-ui
       'nvim-neotest/nvim-nio',
+      'mfussenegger/nvim-dap-python',
 
       -- Installs the debug adapters for you
       'williamboman/mason.nvim',
@@ -148,6 +141,28 @@ return {
     end,
   },
 
-  { 'jonboh/nvim-dap-rr', dependencies = { 'nvim-dap', 'telescope.nvim' } },
+  {
+    'jonboh/nvim-dap-rr',
+    dependencies = { 'nvim-dap', 'telescope.nvim' },
+    setup = {
+      mappings = {
+        continue = '<F7>',
+        step_over = '<F8>',
+        step_out = '<F9>',
+        step_into = '<F10>',
+        reverse_continue = '<F19>', -- <S-F7>
+        reverse_step_over = '<F20>', -- <S-F8>
+        reverse_step_out = '<F21>', -- <S-F9>
+        reverse_step_into = '<F22>', -- <S-F10>
+        -- instruction level stepping
+        step_over_i = '<F32>', -- <C-F8>
+        step_out_i = '<F33>', -- <C-F8>
+        step_into_i = '<F34>', -- <C-F8>
+        reverse_step_over_i = '<F44>', -- <SC-F8>
+        reverse_step_out_i = '<F45>', -- <SC-F9>
+        reverse_step_into_i = '<F46>', -- <SC-F10>
+      },
+    },
+  },
   { 'theHamsta/nvim-dap-virtual-text', dependencies = { 'nvim-dap', 'nvim-treesitter' } },
 }
