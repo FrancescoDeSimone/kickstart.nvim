@@ -149,4 +149,5 @@ return {
   },
 
   { 'jonboh/nvim-dap-rr', dependencies = { 'nvim-dap', 'telescope.nvim' } },
+  { 'theHamsta/nvim-dap-virtual-text', dependencies = { 'nvim-dap', 'nvim-treesitter' } },
 }
