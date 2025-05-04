@@ -45,16 +45,16 @@ dap.configurations.cpp = {
     type = 'codelldb',
     request = 'launch',
     program = get_program,
-    cwd = vim.fn.getcwd,
-    stopOnEntry = true,
+    -- cwd = vim.fn.getcwd,
+    -- stopOnEntry = true,
   },
   {
     name = '(gdb) Launch file',
     type = 'cppdbg',
     request = 'launch',
     program = get_program,
-    cwd = vim.fn.getcwd,
-    stopAtEntry = true,
+    -- cwd = vim.fn.getcwd,
+    -- stopAtEntry = true,
   },
 }
 
