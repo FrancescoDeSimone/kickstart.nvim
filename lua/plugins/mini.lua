@@ -1,3 +1,4 @@
+vim.keymap.set('n', '<leader>z', ':lua MiniMisc.zoom()<CR>', { desc = 'Zoom the split' })
 return { -- Collection of various small independent plugins/modules
   'echasnovski/mini.nvim',
   config = function()
@@ -17,6 +18,8 @@ return { -- Collection of various small independent plugins/modules
     require('mini.surround').setup()
     require('mini.cursorword').setup()
     require('mini.trailspace').setup()
+    require('mini.misc').setup()
+    -- require('mini.indentscope').setup()
     require('mini.move').setup {
       mappings = {
         left = '<M-Left>',
