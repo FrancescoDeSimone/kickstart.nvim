@@ -11,6 +11,7 @@ local options = {
   encoding = 'utf-8',
   equalalways = true,
   expandtab = true,
+  smartindent = true,
   fileencoding = 'utf-8',
   fillchars = {
     diff = '╱',
