@@ -1,4 +1,4 @@
-vim.keymap.set('n', '<leader>tt', ':Lspsaga term_toggle<CR>', { desc = 'Toggle terminal' })
+vim.keymap.set('n', '<c-/>', ':Lspsaga term_toggle<CR>', { desc = 'Toggle terminal' })
 vim.keymap.set('n', '<leader>li', ':Lspsaga incoming_calls<CR>', { desc = 'Incoming calls' })
 vim.keymap.set('n', '<leader>lo', ':Lspsaga outgoing_calls<CR>', { desc = 'Outgoing calls' })
 vim.keymap.set('n', '<leader>la', ':Lspsaga code_action<CR>', { desc = 'Code action' })
