@@ -3,6 +3,7 @@ local finders = require 'telescope.finders'
 local conf = require('telescope.config').values
 local actions = require 'telescope.actions'
 local action_state = require 'telescope.actions.state'
+
 local function get_program()
   return coroutine.create(function(coro)
     local opts = {}
@@ -66,3 +67,15 @@ table.insert(require('dap').configurations.python, {
   name = 'My custom launch configuration',
   program = '${file}',
 })
+
+dap.configurations.lua = {
+  {
+    type = 'nlua',
+    request = 'attach',
+    name = 'Attach to running Neovim instance',
+  },
+}
+
+dap.adapters.nlua = function(callback, config)
+  callback { type = 'server', host = config.host or '127.0.0.1', port = config.port or 8086 }
+end
