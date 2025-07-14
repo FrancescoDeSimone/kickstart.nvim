@@ -1,4 +1,4 @@
-vim.keymap.set('n', '-', '<CMD>Oil<CR>', { desc = 'Open parent directory' })
+vim.keymap.set('n', '-', '<CMD>:lua require("oil").open(nil,{ preview = { vertical = true } })<CR>', { desc = 'Open parent directory' })
 return {
   {
     {
