@@ -12,7 +12,7 @@ return {
         inko = { 'inko' },
         janet = { 'janet' },
         json = { 'jsonlint' },
-        markdown = { 'vale' },
+        -- markdown = { 'vale' },
         rst = { 'vale' },
         ruby = { 'ruby' },
         terraform = { 'tflint' },

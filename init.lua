@@ -34,4 +34,3 @@ require('lazy').setup({
     },
   },
 })
-require 'dapConfiguration'

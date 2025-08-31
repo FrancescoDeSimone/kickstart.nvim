@@ -114,6 +114,7 @@ return {
       },
     },
     config = function()
+      require 'dapConfiguration'
       local dap = require 'dap'
       local dapui = require 'dapui'
 

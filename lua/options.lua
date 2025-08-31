@@ -30,7 +30,7 @@ local options = {
   },
   foldcolumn = '1',
   foldenable = true,
-  foldexpr = 'nvim_treesitter#foldexpr()',
+  foldexpr = 'v:lua.vim.treesitter.foldexpr()',
   foldlevel = 99,
   foldlevelstart = -1,
   foldmethod = 'expr',

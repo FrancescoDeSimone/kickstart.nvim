@@ -16,7 +16,7 @@ return { -- Collection of various small independent plugins/modules
     -- require('mini.surround').setup {}
     require('mini.cursorword').setup()
     require('mini.bracketed').setup()
-    require('mini.pick').setup()
+    -- require('mini.pick').setup()
     -- In your plugins configuration file where mini.clue is set up:
     -- local miniclue = require 'mini.clue'
     -- miniclue.setup {
