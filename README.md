@@ -19,6 +19,16 @@ Kickstart.nvim targets *only* the latest
 ['nightly'](https://github.com/neovim/neovim/releases/tag/nightly) of Neovim.
 If you are experiencing issues, please make sure you have the latest versions.
 
+```sh
+git clone git@github.com:neovim/neovim.git
+git checkout v0.11.4
+pushd neovim
+mkdir build
+make CMAKE_BUILD_TYPE=Release CMAKE_INSTALL_PREFIX=~/.local/bin/nvim/
+make install
+popd
+```
+
 ### Install External Dependencies
 
 External Requirements:
