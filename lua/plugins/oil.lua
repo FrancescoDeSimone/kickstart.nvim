@@ -1,8 +1,3 @@
--- vim.keymap.set('n', '<leader>-', function()
---   vim.cmd 'vsplit | wincmd l'
---   require('oil').open()
--- end)
--- vim.keymap.set('n', '-', '<CMD>:lua require("oil").open(nil,{ preview = { vertical = true } })<CR>', { desc = 'Open parent directory' })
 return {
   {
     {
