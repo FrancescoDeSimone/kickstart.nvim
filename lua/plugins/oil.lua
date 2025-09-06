@@ -1,14 +1,15 @@
-vim.keymap.set('n', '<leader>-', function()
-  vim.cmd 'vsplit | wincmd l'
-  require('oil').open()
-end)
-vim.keymap.set('n', '-', '<CMD>:lua require("oil").open(nil,{ preview = { vertical = true } })<CR>', { desc = 'Open parent directory' })
+-- vim.keymap.set('n', '<leader>-', function()
+--   vim.cmd 'vsplit | wincmd l'
+--   require('oil').open()
+-- end)
+-- vim.keymap.set('n', '-', '<CMD>:lua require("oil").open(nil,{ preview = { vertical = true } })<CR>', { desc = 'Open parent directory' })
 return {
   {
     {
       'stevearc/oil.nvim',
       ---@module 'oil'
       ---@type oil.SetupOpts
+      cmd = 'Oil',
       opts = {
         columns = { 'type', { 'icon', default_file = 'bar', directory = 'dir', highlight = 'Foo' }, 'size', 'permissions' },
         experimental_watch_for_changes = true,
@@ -28,11 +29,26 @@ return {
           wrap = false,
         },
       },
-      -- Optional dependencies
+      keys = {
+        {
+          '-',
+          function()
+            require('oil').open(nil, { preview = { vertical = true } })
+          end,
+          desc = 'Open parent directory',
+        },
+        {
+          '<leader>-',
+          function()
+            vim.cmd 'vsplit | wincmd l'
+            require('oil').open()
+          end,
+          desc = 'File Explorer (Oil)',
+        },
+      },
       dependencies = { { 'echasnovski/mini.icons', opts = {} } },
-      -- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if you prefer nvim-web-devicons
       -- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
-      lazy = false,
+      -- lazy = false,
     },
   },
 }
