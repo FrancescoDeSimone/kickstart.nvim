@@ -1,9 +1,10 @@
 return {
-  dir = '/home/fdesi/git/rfc.nvim',
+  -- dir = '/home/fdesi/git/rfc.nvim',
+  'FrancescoDeSimone/rfc.nvim',
   config = function()
     require('rfc').setup {
-      picker = 'snacks', -- or 'snacks'
-      notification = true, -- Enable/disable notifications
+      picker = 'snacks',
+      verbose = false,
     }
   end,
 }
