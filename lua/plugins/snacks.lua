@@ -250,14 +250,14 @@ return {
       desc = 'Commands',
     },
     {
-      '<leader>xd',
+      '<leader>xD',
       function()
         Snacks.picker.diagnostics()
       end,
       desc = 'Diagnostics',
     },
     {
-      '<leader>xD',
+      '<leader>xd',
       function()
         Snacks.picker.diagnostics_buffer()
       end,
