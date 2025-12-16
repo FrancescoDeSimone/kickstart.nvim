@@ -28,9 +28,7 @@ return {
             completion = { callSnippet = 'Replace' },
             workspace = { checkThirdParty = false },
             telemetry = { enable = false },
-            diagnostics = {
-              disable = { 'missing-fields' },
-            },
+            diagnostics = {},
           },
         },
       },
@@ -40,6 +38,16 @@ return {
     local tools = {
       'stylua', -- Used to format Lua code
       'gofumpt', -- A more opinionated Go formatter
+      'markdownlint',
+      'hadolint',
+      'jsonlint',
+      'tflint',
+      'vale',
+      'black',
+      'prettierd',
+      'shellcheck',
+      'shfmt',
+      'rustfmt',
     }
 
     require('mason-tool-installer').setup {

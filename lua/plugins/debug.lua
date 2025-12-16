@@ -211,7 +211,7 @@ return {
         },
       }
       -- Python (Example using mfussenegger/nvim-dap-python)
-      -- require('dap-python').setup('python') -- Adjust path if needed
+      require('dap-python').setup 'python' -- Adjust path if needed
 
       -- Add rr configurations (ensure this runs *after* cppdbg adapter is defined)
       local rr_dap = require 'nvim-dap-rr' -- Ensure nvim-dap-rr is loaded
