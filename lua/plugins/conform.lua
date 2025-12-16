@@ -30,7 +30,7 @@ return { -- Autoformat
       python = { 'black' },
       javascript = { 'prettierd', 'prettier', stop_after_first = true },
       bash = { 'shellcheck' },
-      rust = { 'rustfmt' },
+      -- rust = { 'rustfmt' },
       nix = { 'alejandra' },
     },
     default_format_opts = {
