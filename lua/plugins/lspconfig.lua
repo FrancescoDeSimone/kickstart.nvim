@@ -66,6 +66,7 @@ return {
       map('<leader>f', vim.lsp.buf.format, 'Format Code')
       map('K', vim.lsp.buf.hover, 'Hover Documentation')
       map('<C-k>', vim.lsp.buf.signature_help, 'Signature Help')
+      map('<leader>xl', vim.diagnostic.open_float, 'Show line diagnostics')
 
       -- Inlay hints
       if client.supports_method 'textDocument/inlayHint' then
