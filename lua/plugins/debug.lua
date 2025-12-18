@@ -18,99 +18,84 @@ return {
       -- nvim-dap-rr is listed separately below, but it's also a dependency
     },
     keys = {
-      -- Standard DAP Keymaps (Based on the guide and your initial global maps)
-      {
-        '<F1>',
-        function()
-          require('dap').terminate()
-        end,
-        desc = 'Debug: Terminate/Stop',
-      },
-      {
-        '<F6>',
-        function()
-          require('dap').toggle_breakpoint()
-        end,
-        desc = 'Debug: Toggle Breakpoint',
-      },
       {
         '<F7>',
         function()
-          -- This will be overridden by nvim-dap-rr during rr sessions
+          require('dap').step_into()
+        end,
+        desc = 'Step Into',
+      },
+      {
+        '<F8>',
+        function()
+          require('dap').step_over()
+        end,
+        desc = 'Step Over',
+      },
+      {
+        '<F9>',
+        function()
+          require('dap').continue()
+        end,
+        desc = 'Continue/Resume',
+      },
+      {
+        '<C-F8>',
+        function()
+          require('dap').toggle_breakpoint()
+        end,
+        desc = 'Toggle Breakpoint',
+      },
+      {
+        '<C-F2>',
+        function()
+          require('dap').terminate()
+        end,
+        desc = 'Stop',
+      },
+
+      -- Unified Programming Menu (<leader>pd)
+      {
+        '<leader>pdd',
+        function()
           require('dap').continue()
         end,
         desc = 'Debug: Continue',
       },
       {
-        '<F8>',
+        '<leader>pdb',
         function()
-          -- This will be overridden by nvim-dap-rr during rr sessions
-          require('dap').step_over()
+          require('dap').toggle_breakpoint()
         end,
-        desc = 'Debug: Step Over',
+        desc = 'Debug: Breakpoint',
       },
       {
-        '<F9>',
+        '<leader>pdi',
         function()
-          -- This will be overridden by nvim-dap-rr during rr sessions
-          require('dap').step_out()
-        end,
-        desc = 'Debug: Step Out',
-      },
-      {
-        '<F10>',
-        function()
-          -- This will be overridden by nvim-dap-rr during rr sessions
           require('dap').step_into()
         end,
         desc = 'Debug: Step Into',
       },
       {
-        '<F11>',
+        '<leader>pdo',
         function()
-          require('dap').pause()
+          require('dap').step_over()
         end,
-        desc = 'Debug: Pause',
-      },
-      -- Use <A-key> notation which might be more portable than <F56>/<F57>
-      -- If <A-F8>/<A-F9> don't work in your terminal, you might need
-      -- to find the correct keycodes or use different bindings.
-      {
-        '<A-F8>', -- Alt+F8 (Often sends <F56> or similar, check your terminal)
-        function()
-          require('dap').down()
-        end,
-        desc = 'Debug: Go Down Stack Frame',
+        desc = 'Debug: Step Over',
       },
       {
-        '<A-F9>', -- Alt+F9 (Often sends <F57> or similar, check your terminal)
+        '<leader>pdt',
         function()
-          require('dap').up()
+          require('dap').terminate()
         end,
-        desc = 'Debug: Go Up Stack Frame',
-      },
-      -- Conditional Breakpoint
-      {
-        '<leader>b',
-        function()
-          require('dap').toggle_breakpoint()
-        end,
-        desc = 'Debug: Toggle Breakpoint',
+        desc = 'Debug: Terminate',
       },
       {
-        '<leader>B',
-        function()
-          require('dap').set_breakpoint(vim.fn.input 'Breakpoint condition: ')
-        end,
-        desc = 'Debug: Set Conditional Breakpoint',
-      },
-      -- Toggle DAP UI (Changed from F7 to avoid conflict with dap.continue)
-      {
-        '<F12>', -- Or choose another key like '<leader>du'
+        '<leader>pdu',
         function()
           require('dapui').toggle()
         end,
-        desc = 'Debug: Toggle DAP UI',
+        desc = 'Debug: Toggle UI',
       },
     },
     config = function()
@@ -139,12 +124,11 @@ return {
         automatic_installation = true,
         handlers = {},
         ensure_installed = {
-          -- Add cpptools needed by nvim-dap-rr
           'debugpy',
+          'ty',
           'cpptools',
           'codelldb',
           'delve', -- For Go debugging
-          -- Add other debug adapters you need, e.g., 'debugpy' for Python
         },
       }
 

@@ -21,7 +21,8 @@ return {
     local servers = {
       clangd = {},
       gopls = {},
-      pyright = {},
+      ty = {},
+      -- pyright = {},
       lua_ls = {
         settings = {
           Lua = {
@@ -71,7 +72,7 @@ return {
       map('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
       map('gt', vim.lsp.buf.type_definition, '[G]oto [T]ype Definition')
       map('gr', vim.lsp.buf.references, '[G]oto [R]eferences')
-      map('<leader>f', vim.lsp.buf.format, 'Format Code')
+      -- map('<leader>f', vim.lsp.buf.format, 'Format Code')
       map('K', vim.lsp.buf.hover, 'Hover Documentation')
       map('<C-k>', vim.lsp.buf.signature_help, 'Signature Help')
       map('<leader>xl', vim.diagnostic.open_float, 'Show line diagnostics')

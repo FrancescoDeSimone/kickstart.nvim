@@ -4,7 +4,6 @@ return {
   lazy = false,
   opts = {
     bigfile = { enabled = true },
-    -- dashboard = { enabled = true },
     explorer = { enabled = true },
     indent = { enabled = true, animate = { enabled = false } },
     input = { enabled = true },
@@ -119,13 +118,13 @@ return {
       end,
       desc = 'Projects',
     },
-    {
-      '<leader>fr',
-      function()
-        Snacks.picker.recent()
-      end,
-      desc = 'Recent',
-    },
+    -- {
+    --   '<leader>fr',
+    --   function()
+    --     Snacks.picker.recent()
+    --   end,
+    --   desc = 'Recent',
+    -- },
     -- git
     {
       '<leader>gb',
@@ -547,10 +546,19 @@ return {
         Snacks.toggle.line_number():map '<leader>ul'
         Snacks.toggle.option('conceallevel', { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2 }):map '<leader>uc'
         Snacks.toggle.treesitter():map '<leader>uT'
-        Snacks.toggle.option('background', { off = 'light', on = 'dark', name = 'Dark Background' }):map '<leader>ub'
+        -- Snacks.toggle.option('background', { off = 'light', on = 'dark', name = 'Dark Background' }):map '<leader>ub'
         Snacks.toggle.inlay_hints():map '<leader>uh'
         Snacks.toggle.indent():map '<leader>ug'
         Snacks.toggle.dim():map '<leader>uD'
+        Snacks.toggle({
+          name = 'Autoformat on Save',
+          get = function()
+            return not vim.g.disable_autoformat
+          end,
+          set = function(state)
+            vim.g.disable_autoformat = not state
+          end,
+        }):map '<leader>uf'
       end,
     })
   end,
