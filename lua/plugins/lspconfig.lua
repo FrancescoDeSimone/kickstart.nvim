@@ -48,7 +48,7 @@ return {
       'prettierd',
       'shellcheck',
       'shfmt',
-      'rustfmt',
+      -- 'rustfmt',
     }
 
     require('mason-tool-installer').setup {
