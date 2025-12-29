@@ -526,6 +526,20 @@ return {
     },
   },
   init = function()
+    vim.api.nvim_create_autocmd('ColorScheme', {
+      pattern = '*',
+      callback = function()
+        local beige_hl = { fg = '#ccac93', link = nil }
+        local purple_hl = { fg = '#9e95c7', link = nil }
+        vim.api.nvim_set_hl(0, 'SnacksPickerDir', beige_hl)
+        vim.api.nvim_set_hl(0, 'SnacksPickerPathHidden', beige_hl)
+        vim.api.nvim_set_hl(0, 'SnacksPickerComment', beige_hl)
+        vim.api.nvim_set_hl(0, 'SnacksPickerRow', purple_hl)
+        vim.api.nvim_set_hl(0, 'SnacksPickerCol', purple_hl)
+      end,
+    })
+    vim.api.nvim_exec_autocmds('ColorScheme', {})
+
     vim.api.nvim_create_autocmd('User', {
       pattern = 'VeryLazy',
       callback = function()
