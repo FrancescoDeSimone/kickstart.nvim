@@ -45,5 +45,14 @@ return {
       -- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
       -- lazy = false,
     },
+    {
+      'benomahony/oil-git.nvim',
+      dependencies = { 'stevearc/oil.nvim' },
+    },
+    {
+      'JezerM/oil-lsp-diagnostics.nvim',
+      dependencies = { 'stevearc/oil.nvim' },
+      opts = {},
+    },
   },
 }
