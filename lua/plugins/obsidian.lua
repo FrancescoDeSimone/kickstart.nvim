@@ -1,14 +1,13 @@
 -- lua/plugins/obsidian.lua
 return {
   'obsidian-nvim/obsidian.nvim',
-  version = '*', -- recommended, use latest release instead of latest commit
+  version = '*',
   lazy = false,
   ft = 'markdown',
   dependencies = {
     'nvim-lua/plenary.nvim',
     'saghen/blink.cmp',
     'folke/snacks.nvim',
-    -- 'nvim-telescope/telescope.nvim',
   },
 
   opts = {
@@ -22,18 +21,11 @@ return {
 
     daily_notes = {
       folder = 'daily-notes',
-      -- Optional: Date format for note filenames. Defaults to "%Y-%m-%d".
-      -- date_format = "%Y-%m-%d",
-      -- Optional: Template file path relative to the vault root.
-      -- template = "templates/daily.md",
     },
 
-    -- How new notes are created. "current_dir", "notes_subdir", or "root"
     new_notes_location = 'notes_subdir',
 
-    -- NEW: All checkbox settings are now in this table
     checkbox = {
-      -- The order of checkbox symbols to cycle through when you press the toggle keymap.
       order = {
         ' ',
         'x',
@@ -46,7 +38,6 @@ return {
         'i',
         '~',
       },
-      -- The definitions for each checkbox symbol's appearance.
       symbols = {
         [' '] = { char = '󰄱', hl_group = 'Obsidian todo' }, -- todo
         ['x'] = { char = '', hl_group = 'Obsidian done' }, -- done
@@ -61,7 +52,6 @@ return {
       },
     },
 
-    -- Integrate with nvim-cmp for completion
     completion = {
       nvim_cmp = false, -- Set to false if you don't use nvim-cmp
       min_chars = 2, -- Trigger completion after 2 characters
