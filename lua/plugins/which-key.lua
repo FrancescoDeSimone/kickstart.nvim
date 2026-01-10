@@ -9,14 +9,8 @@ return {
       { '<leader>pa', desc = 'Code [A]ction' }, -- Unified (Lspsaga/LSP)
       { '<leader>pf', desc = 'Format File' }, -- Unified (Conform)
 
-      -- Debug Group (Matches IntelliJ actions)
-      { '<leader>pd', group = '[D]ebug' },
-      { '<leader>pdd', desc = 'Start/Continue' }, -- F9
-      { '<leader>pdb', desc = 'Toggle Breakpoint' }, -- Ctrl+F8
-      { '<leader>pdi', desc = 'Step Into' }, -- F7
-      { '<leader>pdo', desc = 'Step Over' }, -- F8
-      { '<leader>pdt', desc = 'Terminate' }, -- Ctrl+F2
-      { '<leader>pdu', desc = 'Toggle Debug UI' },
+      -- Debug Group
+      { '<leader>d', group = '[D]ebug' },
 
       -- Run/Rename Group
       { '<leader>pr', group = '[R]un / Rename' },

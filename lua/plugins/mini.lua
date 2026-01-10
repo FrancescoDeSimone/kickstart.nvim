@@ -19,10 +19,19 @@ return { -- Collection of various small independent plugins/modules
     }
     local statusline = require 'mini.statusline'
     statusline.setup { use_icons = vim.g.have_nerd_font }
+
     ---@diagnostic disable-next-line: duplicate-set-field
     statusline.section_location = function()
       local recording = _G.is_recording and ' ⏺ recording ' or ''
-      return recording .. '%2l:%-2c'
+      local debug_status = ''
+      if package.loaded['debugmaster'] then
+        local ok, dm = pcall(require, 'debugmaster.debug.mode')
+        if ok and dm.is_active() then
+          debug_status = 'DEBUG '
+        end
+      end
+
+      return debug_status .. recording .. '%2l:%-2c'
     end
     vim.cmd 'highlight MiniStatuslineModeNormal guibg=Yellow guifg=Black'
   end,
