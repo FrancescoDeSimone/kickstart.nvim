@@ -22,7 +22,6 @@ return {
       clangd = {},
       gopls = {},
       ty = {},
-      -- pyright = {},
       lua_ls = {
         settings = {
           Lua = {
