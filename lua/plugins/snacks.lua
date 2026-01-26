@@ -37,7 +37,7 @@ return {
   keys = {
     -- Top Pickers
     {
-      '<leader><space>',
+      '<leader>b',
       function()
         Snacks.picker.buffers()
       end,
