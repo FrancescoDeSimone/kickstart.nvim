@@ -66,11 +66,8 @@ return {
       -- Keymaps
       map('grn', vim.lsp.buf.rename, '[R]e[n]ame')
       map('gra', vim.lsp.buf.code_action, 'Code [A]ction', { 'n', 'x' })
-      map('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
-      map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-      map('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
-      map('gt', vim.lsp.buf.type_definition, '[G]oto [T]ype Definition')
-      map('gr', vim.lsp.buf.references, '[G]oto [R]eferences')
+      -- LSP navigation now handled by snacks picker:
+      -- gd, gD, gI, gy, gr are defined in snacks.lua
       -- map('<leader>f', vim.lsp.buf.format, 'Format Code')
       map('K', vim.lsp.buf.hover, 'Hover Documentation')
       map('<C-k>', vim.lsp.buf.signature_help, 'Signature Help')

@@ -32,7 +32,7 @@ return {
             end)(),
           }
 
-          vim.keymap.set('n', '<leader>d', dm.mode.toggle, { desc = 'Toggle Debug Mode' })
+          vim.keymap.set('n', '<leader>Dt', dm.mode.toggle, { desc = 'Toggle Debug Mode' })
           vim.keymap.set('t', '<C-\\>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
         end,
       },

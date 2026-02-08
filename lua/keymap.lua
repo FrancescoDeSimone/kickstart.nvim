@@ -23,3 +23,25 @@ vim.keymap.set('i', '<S-Left>', '<Esc>v<Left>', { desc = 'Select Left' })
 vim.keymap.set('i', '<S-Right>', '<Esc>v<Right>', { desc = 'Select Right' })
 vim.keymap.set('v', '<', '<gv', { desc = 'Indent Left (Keep Selection)' })
 vim.keymap.set('v', '>', '>gv', { desc = 'Indent Right (Keep Selection)' })
+
+-- Quickfix navigation
+vim.keymap.set('n', '[q', ':cprev<CR>', { desc = 'Previous quickfix' })
+vim.keymap.set('n', ']q', ':cnext<CR>', { desc = 'Next quickfix' })
+vim.keymap.set('n', '[l', ':lprev<CR>', { desc = 'Previous location' })
+vim.keymap.set('n', ']l', ':lnext<CR>', { desc = 'Next location' })
+
+-- Tab management
+vim.keymap.set('n', '<leader>tt', '<Cmd>tabnew<CR>', { desc = 'New Tab' })
+vim.keymap.set('n', '<leader>tc', '<Cmd>tabclose<CR>', { desc = 'Close Tab' })
+vim.keymap.set('n', '<leader>tn', '<Cmd>tabnext<CR>', { desc = 'Next Tab' })
+vim.keymap.set('n', '<leader>tp', '<Cmd>tabprev<CR>', { desc = 'Previous Tab' })
+
+-- Session management
+vim.keymap.set('n', '<leader>ss', '<Cmd>mksession!<CR>', { desc = 'Save Session' })
+vim.keymap.set('n', '<leader>sl', '<Cmd>source Session.vim<CR>', { desc = 'Load Session' })
+
+-- Fold management
+vim.keymap.set('n', '<leader>fo', 'za', { desc = 'Toggle Fold' })
+vim.keymap.set('n', '<leader>fO', 'zA', { desc = 'Toggle All Folds' })
+vim.keymap.set('n', '<leader>fr', 'zR', { desc = 'Open All Folds' })
+vim.keymap.set('n', '<leader>fm', 'zM', { desc = 'Close All Folds' })
