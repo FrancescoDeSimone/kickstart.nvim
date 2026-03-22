@@ -8,15 +8,16 @@ return { -- Collection of various small independent plugins/modules
     require('mini.move').setup {
       mappings = {
         left = '<M-Left>',
-        right = ' <M-Right>',
+        right = '<M-Right>',
         down = '<M-Down>',
-        up = ' <M-Up>',
+        up = '<M-Up>',
         line_left = '<M-Left>',
         line_right = '<M-Right>',
         line_down = '<M-Down>',
         line_up = '<M-Up>',
       },
     }
+    require('mini.align').setup()
     local statusline = require 'mini.statusline'
     statusline.setup { use_icons = vim.g.have_nerd_font }
 
