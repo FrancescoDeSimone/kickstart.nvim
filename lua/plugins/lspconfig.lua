@@ -38,7 +38,7 @@ return {
     local tools = {
       'stylua', -- Used to format Lua code
       'gofumpt', -- A more opinionated Go formatter
-      'markdownlint',
+
       'hadolint',
       'jsonlint',
       'tflint',

@@ -75,22 +75,6 @@ return {
       { '<leader>b', desc = 'Buffers' },
       { '<leader>q', desc = 'Delete Buffer' },
 
-      -- UI/Toggles
-      { '<leader>u', group = '[U]I/Toggles' },
-      { '<leader>us', desc = 'Toggle Spelling' },
-      { '<leader>uw', desc = 'Toggle Wrap' },
-      { '<leader>uL', desc = 'Toggle Relative Number' },
-      { '<leader>ud', desc = 'Toggle Diagnostics' },
-      { '<leader>ul', desc = 'Toggle Line Number' },
-      { '<leader>uc', desc = 'Toggle Conceal' },
-      { '<leader>uT', desc = 'Toggle Treesitter' },
-      { '<leader>uh', desc = 'Toggle Inlay Hints' },
-      { '<leader>ug', desc = 'Toggle Indent' },
-      { '<leader>uD', desc = 'Toggle Dim' },
-      { '<leader>uf', desc = 'Toggle Autoformat' },
-      { '<leader>un', desc = 'Dismiss Notifications' },
-      { '<leader>uC', desc = 'Colorschemes' },
-
       -- Diagnostics
       { '<leader>x', group = '[X] Diagnostics' },
       { '<leader>xD', desc = 'Diagnostics' },
