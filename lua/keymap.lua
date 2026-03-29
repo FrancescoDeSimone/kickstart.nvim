@@ -36,9 +36,9 @@ vim.keymap.set('n', '<leader>tc', '<Cmd>tabclose<CR>', { desc = 'Close Tab' })
 vim.keymap.set('n', '<leader>tn', '<Cmd>tabnext<CR>', { desc = 'Next Tab' })
 vim.keymap.set('n', '<leader>tp', '<Cmd>tabprev<CR>', { desc = 'Previous Tab' })
 
--- Session management
-vim.keymap.set('n', '<leader>ss', '<Cmd>mksession!<CR>', { desc = 'Save Session' })
-vim.keymap.set('n', '<leader>sl', '<Cmd>source Session.vim<CR>', { desc = 'Load Session' })
+-- Session management (prefixed with S to avoid conflict with Snacks <leader>ss/<leader>sl)
+vim.keymap.set('n', '<leader>Ss', '<Cmd>mksession!<CR>', { desc = 'Save Session' })
+vim.keymap.set('n', '<leader>Sl', '<Cmd>source Session.vim<CR>', { desc = 'Load Session' })
 
 -- Fold management
 vim.keymap.set('n', '<leader>fo', 'za', { desc = 'Toggle Fold' })
