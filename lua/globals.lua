@@ -1,5 +1,4 @@
 local globals = {
-  colorizing_enabled = 1,
   disable_autoformat = false,
   disable_diagnostics = false,
   first_buffer_opened = false,

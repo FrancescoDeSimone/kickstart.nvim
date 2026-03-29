@@ -5,7 +5,7 @@ local options = {
   breakindent = true,
   cc = '80,120',
   cmdheight = 0,
-  completeopt = { 'menu', 'menuone', 'noselect' },
+  -- NOTE: completeopt removed — blink.cmp manages this at runtime
   copyindent = true,
   cursorline = false,
   encoding = 'utf-8',
@@ -17,8 +17,6 @@ local options = {
     diff = '╱',
     eob = ' ',
     fold = ' ',
-    foldclose = '',
-    foldopen = '',
     horiz = '━',
     horizdown = '┳',
     horizup = '┻',
@@ -41,7 +39,6 @@ local options = {
   incsearch = true,
   list = true,
   listchars = 'tab:→ ,nbsp:␣,trail:•,extends:⟩,precedes:⟨',
-  -- listchars = { tab = '» ', trail = '·', nbsp = '␣' },
   modeline = true,
   modelines = 100,
   mouse = 'a',
@@ -64,13 +61,18 @@ local options = {
   swapfile = false,
   synmaxcol = 125,
   tabstop = 2,
-  termguicolors = true,
+  -- NOTE: 'termguicolors' removed — default true since Nvim 0.10
+  -- NOTE: 'ttyfast' removed — no-op in Neovim (Vim legacy option)
   timeoutlen = 100,
-  ttyfast = true,
   undofile = true,
   updatetime = 100,
   wildignorecase = true,
   wrap = false,
+
+  -- Nvim 0.12
+  pumborder = 'rounded',
+  winborder = 'rounded',
+  messagesopt = 'hit-enter,history:500,progress:c',
 }
 
 vim.schedule(function()

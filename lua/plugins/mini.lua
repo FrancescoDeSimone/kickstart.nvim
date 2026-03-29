@@ -1,7 +1,13 @@
 return { -- Collection of various small independent plugins/modules
   'nvim-mini/mini.nvim',
   config = function()
-    require('mini.ai').setup { n_lines = 500 }
+    require('mini.ai').setup {
+      n_lines = 500,
+      mappings = {
+        around_next = '',
+        inside_next = '',
+      },
+    }
     require('mini.surround').setup()
     require('mini.bracketed').setup()
     require('mini.trailspace').setup()

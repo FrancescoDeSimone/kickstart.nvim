@@ -210,14 +210,8 @@ return {
       end,
       desc = 'Goto Declaration',
     },
-    {
-      'gr',
-      function()
-        Snacks.picker.lsp_references()
-      end,
-      nowait = true,
-      desc = 'References',
-    },
+    -- NOTE: gr mapping removed — Nvim 0.12 default grr handles references.
+    -- Keeping gr free allows grn, gra, gri, grt, grx defaults to work.
     {
       'gI',
       function()

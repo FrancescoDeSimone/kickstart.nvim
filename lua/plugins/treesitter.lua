@@ -1,10 +1,16 @@
 return { -- Highlight, edit, and navigate code
   'nvim-treesitter/nvim-treesitter',
-  dependencies = { 'OXY2DEV/markview.nvim' },
+  dependencies = { 'OXY2DEV/markview.nvim', 'nvim-treesitter/nvim-treesitter-textobjects' },
   priority = 50,
   build = ':TSUpdate',
   -- main = 'nvim-treesitter.configs', -- Sets main module to use for opts
   -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
+  --
+  -- Nvim 0.12: Builtin incremental selection via treesitter is now available:
+  --   an (visual mode) = expand to parent node
+  --   in (visual mode) = shrink to child node
+  --   [n / ]n (visual mode) = previous/next sibling node
+  -- No plugin config needed — these work out of the box with treesitter parsers.
   opts = {
     ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
     -- incremental_selection = {

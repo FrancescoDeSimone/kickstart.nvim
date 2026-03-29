@@ -2,52 +2,32 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
   group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
   callback = function()
-    vim.highlight.on_yank()
+    vim.hl.on_yank()
   end,
 })
 
+local diag_group = vim.api.nvim_create_augroup('kickstart-disable-diagnostic', { clear = true })
+
 vim.api.nvim_create_autocmd('InsertLeave', {
   pattern = '*',
-  group = vim.api.nvim_create_augroup('disable diagnostic', { clear = true }),
+  group = diag_group,
   callback = function()
-    vim.diagnostic.show()
+    vim.diagnostic.show(nil, vim.api.nvim_get_current_buf())
   end,
 })
 
 vim.api.nvim_create_autocmd('InsertEnter', {
   pattern = '*',
+  group = diag_group,
   callback = function()
-    vim.diagnostic.hide()
+    vim.diagnostic.hide(nil, vim.api.nvim_get_current_buf())
   end,
 })
 
--- vim.api.nvim_create_autocmd('CursorHold', {
---   pattern = '*',
---   callback = function()
---     local hover_opts = {
---       focusable = false,
---       close_events = { 'BufLeave', 'CursorMoved', 'InsertEnter', 'FocusLost' },
---       border = 'rounded',
---       source = 'always',
---     }
---     vim.diagnostic.open_float(nil, hover_opts)
---   end,
--- })
+local misc_group = vim.api.nvim_create_augroup('kickstart-misc', { clear = true })
 
 vim.api.nvim_create_autocmd('VimResized', {
   pattern = '*',
+  group = misc_group,
   command = 'wincmd =',
-})
-
-vim.api.nvim_create_autocmd('RecordingEnter', {
-  callback = function()
-    _G.is_recording = true
-    vim.cmd 'redrawstatus'
-  end,
-})
-vim.api.nvim_create_autocmd('RecordingLeave', {
-  callback = function()
-    _G.is_recording = false
-    vim.cmd 'redrawstatus'
-  end,
 })
