@@ -24,22 +24,94 @@ return { -- Collection of various small independent plugins/modules
       },
     }
     require('mini.align').setup()
-    local statusline = require 'mini.statusline'
-    statusline.setup { use_icons = vim.g.have_nerd_font }
 
-    ---@diagnostic disable-next-line: duplicate-set-field
-    statusline.section_location = function()
-      local recording = _G.is_recording and ' ⏺ recording ' or ''
-      local debug_status = ''
-      if package.loaded['debugmaster'] then
-        local ok, dm = pcall(require, 'debugmaster.debug.mode')
-        if ok and dm.is_active() then
-          debug_status = 'DEBUG '
-        end
+    local MiniStatusline = require 'mini.statusline'
+
+    local function section_lsp_names(args)
+      if MiniStatusline.is_truncated(args.trunc_width) then
+        return ''
       end
-
-      return debug_status .. recording .. '%2l:%-2c'
+      local clients = vim.lsp.get_clients { bufnr = 0 }
+      if #clients == 0 then
+        return ''
+      end
+      local names = {}
+      for _, client in ipairs(clients) do
+        names[#names + 1] = client.name
+      end
+      local icon = MiniStatusline.config.use_icons and '󰰎 ' or 'LSP '
+      return icon .. table.concat(names, ', ')
     end
+
+    local function section_progress(args)
+      if MiniStatusline.is_truncated(args.trunc_width) then
+        return ''
+      end
+      local status = vim.ui.progress_status()
+      if status == '' then
+        return ''
+      end
+      local icon = MiniStatusline.config.use_icons and ' ' or 'Progress: '
+      return icon .. status
+    end
+
+    local function section_recording()
+      local reg = vim.fn.reg_recording()
+      if reg == '' then
+        return ''
+      end
+      return '⏺ @' .. reg
+    end
+
+    local function section_debug(args)
+      if MiniStatusline.is_truncated(args.trunc_width) then
+        return ''
+      end
+      if not package.loaded['debugmaster'] then
+        return ''
+      end
+      local ok, dm = pcall(require, 'debugmaster.debug.mode')
+      if ok and dm.is_active() then
+        return '󰃤 DEBUG'
+      end
+      return ''
+    end
+
+    -- Setup --
+
+    MiniStatusline.setup {
+      use_icons = vim.g.have_nerd_font,
+      content = {
+        active = function()
+          local mode, mode_hl = MiniStatusline.section_mode { trunc_width = 120 }
+          local git = MiniStatusline.section_git { trunc_width = 40 }
+          local diff = MiniStatusline.section_diff { trunc_width = 75 }
+          local diagnostics = MiniStatusline.section_diagnostics {
+            trunc_width = 75,
+            signs = { ERROR = ' ', WARN = ' ', INFO = ' ', HINT = '󰌵 ' },
+          }
+          local filename = MiniStatusline.section_filename { trunc_width = 140 }
+          local fileinfo = MiniStatusline.section_fileinfo { trunc_width = 120 }
+          local location = '%l:%2v'
+          local search = MiniStatusline.section_searchcount { trunc_width = 75 }
+          local lsp = section_lsp_names { trunc_width = 75 }
+          local progress = section_progress { trunc_width = 75 }
+          local recording = section_recording()
+          local debug = section_debug { trunc_width = 75 }
+
+          return MiniStatusline.combine_groups {
+            { hl = mode_hl, strings = { mode, debug } },
+            { hl = 'MiniStatuslineDevinfo', strings = { git, diff, diagnostics } },
+            '%<',
+            { hl = 'MiniStatuslineFilename', strings = { filename } },
+            '%=',
+            { hl = 'MiniStatuslineFileinfo', strings = { progress, lsp, fileinfo } },
+            { hl = mode_hl, strings = { recording, search, location } },
+          }
+        end,
+      },
+    }
+
     vim.cmd 'highlight MiniStatuslineModeNormal guibg=Yellow guifg=Black'
   end,
 }
