@@ -70,8 +70,8 @@ return {
         },
       }
 
-      local python_path = vim.fn.stdpath 'data' .. '/mason/packages/debugpy/venv/bin/python'
-      require('dap-python').setup(python_path)
+      local debugpy_path = vim.fn.stdpath 'data' .. '/mason/packages/debugpy/venv/bin/python'
+      require('dap-python').setup(debugpy_path)
 
       require('dap-go').setup()
 
@@ -82,9 +82,15 @@ return {
         command = cpptools_path,
       }
 
-      vim.fn.sign_define('DapBreakpoint', { text = '🛑', texthl = 'Error' })
-      vim.fn.sign_define('DapBreakpointCondition', { text = '❓', texthl = 'WarningMsg' })
-      vim.fn.sign_define('DapStopped', { text = '▶️', texthl = 'DiffAdd', linehl = 'CursorLine' })
+      -- Nvim 0.12: use dap.defaults for sign configuration (replaces vim.fn.sign_define)
+      local dap_signs = {
+        DapBreakpoint = { text = '🛑', texthl = 'Error' },
+        DapBreakpointCondition = { text = '❓', texthl = 'WarningMsg' },
+        DapStopped = { text = '▶️', texthl = 'DiffAdd', linehl = 'CursorLine' },
+      }
+      for name, sign in pairs(dap_signs) do
+        vim.fn.sign_define(name, sign)
+      end
     end,
   },
 }
