@@ -22,7 +22,17 @@ return {
       clangd = {},
       cssls = {},
       gopls = {},
+      html = {},
       ty = {},
+      -- Ruff: extremely fast Python linter/formatter (Rust-based).
+      -- Complements ty (type checking) with lint diagnostics and formatting.
+      ruff = {},
+      -- vtsls: fast TypeScript/JavaScript language server.
+      vtsls = {},
+      bashls = {},
+      nil_ls = {},
+      terraformls = {},
+      marksman = {},
       lua_ls = {
         settings = {
           Lua = {
@@ -43,10 +53,11 @@ return {
       'jsonlint',
       'tflint',
       'vale',
-      'black',
       'prettierd',
       'shellcheck',
       'shfmt',
+      'statix',
+      'markdownlint',
     }
 
     require('mason-tool-installer').setup {

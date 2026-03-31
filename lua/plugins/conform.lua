@@ -1,6 +1,6 @@
-return { -- Autoformat
+return { -- Formatting (manual via <leader>rf)
   'stevearc/conform.nvim',
-  event = { 'BufWritePre' },
+  event = { 'BufWritePre', 'BufReadPre' },
   cmd = { 'ConformInfo' },
   keys = {
     {
@@ -14,6 +14,7 @@ return { -- Autoformat
   },
   opts = {
     notify_on_error = false,
+    -- Format-on-save: disabled by default. Toggle with <leader>uf (see snacks.lua).
     format_on_save = function(bufnr)
       if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
         return
@@ -22,12 +23,20 @@ return { -- Autoformat
     end,
     formatters_by_ft = {
       lua = { 'stylua' },
-      python = { 'black' },
+      python = { 'ruff_format' },
       javascript = { 'prettierd', 'prettier', stop_after_first = true },
+      typescript = { 'prettierd', 'prettier', stop_after_first = true },
+      typescriptreact = { 'prettierd', 'prettier', stop_after_first = true },
+      javascriptreact = { 'prettierd', 'prettier', stop_after_first = true },
+      css = { 'prettierd', 'prettier', stop_after_first = true },
+      html = { 'prettierd', 'prettier', stop_after_first = true },
+      json = { 'prettierd', 'prettier', stop_after_first = true },
+      markdown = { 'prettierd', 'prettier', stop_after_first = true },
       bash = { 'shfmt' },
       sh = { 'shfmt' },
-      -- rust = { 'rustfmt' },
+      -- rust = { 'rustfmt' }, -- handled by rustaceanvim LSP formatting
       nix = { 'alejandra' },
+      go = { 'gofumpt' },
     },
     default_format_opts = {
       lsp_format = 'fallback',

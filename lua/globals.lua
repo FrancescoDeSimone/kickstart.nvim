@@ -1,5 +1,5 @@
 local globals = {
-  disable_autoformat = false,
+  disable_autoformat = true,
   disable_diagnostics = false,
   first_buffer_opened = false,
   have_nerd_font = true,
