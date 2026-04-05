@@ -1,6 +1,23 @@
 return {
   {
     'mfussenegger/nvim-dap',
+    keys = {
+      { '<leader>Dt', desc = 'Toggle Debug Mode' },
+      { '<F5>', desc = 'DAP Continue' },
+      { '<F10>', desc = 'DAP Step Over' },
+      { '<F11>', desc = 'DAP Step Into' },
+      { '<F12>', desc = 'DAP Step Out' },
+    },
+    cmd = {
+      'DapContinue',
+      'DapToggleBreakpoint',
+      'DapStepOver',
+      'DapStepInto',
+      'DapStepOut',
+      'DapTerminate',
+      'DapREPL',
+    },
+    ft = { 'rust', 'go', 'python', 'lua', 'cpp', 'c' },
     dependencies = {
       'jay-babu/mason-nvim-dap.nvim',
       {
@@ -33,6 +50,10 @@ return {
           }
 
           vim.keymap.set('n', '<leader>Dt', dm.mode.toggle, { desc = 'Toggle Debug Mode' })
+          vim.keymap.set('n', '<F5>', dap.continue, { desc = 'DAP Continue' })
+          vim.keymap.set('n', '<F10>', dap.step_over, { desc = 'DAP Step Over' })
+          vim.keymap.set('n', '<F11>', dap.step_into, { desc = 'DAP Step Into' })
+          vim.keymap.set('n', '<F12>', dap.step_out, { desc = 'DAP Step Out' })
           vim.keymap.set('t', '<C-\\>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
         end,
       },
@@ -52,7 +73,12 @@ return {
       'mfussenegger/nvim-dap-python', -- Python
       'leoluz/nvim-dap-go', -- Go
 
-      'andrewferrier/debugprint.nvim',
+      {
+        'andrewferrier/debugprint.nvim',
+        config = function()
+          require('debugprint').setup()
+        end,
+      },
       'lucaSartore/nvim-dap-exception-breakpoints',
       'theHamsta/nvim-dap-virtual-text',
     },

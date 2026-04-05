@@ -60,7 +60,10 @@ return {
   -- 2. Gitsigns: Gutter signs and Hunk actions
   {
     'lewis6991/gitsigns.nvim',
+    event = { 'BufReadPre' },
     opts = {
+      attach_to_untracked = false,
+      watch_gitdir = { follow_files = false },
       on_attach = function(bufnr)
         local gs = require 'gitsigns'
 

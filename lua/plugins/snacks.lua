@@ -3,11 +3,23 @@ return {
   priority = 1000,
   lazy = false,
   opts = {
-    bigfile = { enabled = true },
+    bigfile = {
+      enabled = true,
+      -- lower threshold so heavy features disable sooner on large files
+      -- (uses default threshold when nil; override to 0.5MB / 500KB)
+      filesize = 500 * 1024,
+    },
     explorer = { enabled = true },
     indent = { enabled = true, animate = { enabled = false } },
     input = { enabled = true },
-    picker = { enabled = true },
+    picker = {
+      enabled = true,
+      sources = {
+        explorer = {
+          regex_parents = true,
+        },
+      },
+    },
     quickfile = { enabled = true },
     scope = { enabled = true },
     words = { enabled = true },
@@ -26,7 +38,7 @@ return {
       git = {
         patterns = { 'GitSign', 'MiniDiffSign' },
       },
-      refresh = 50,
+      refresh = 180,
     },
     styles = {
       notification = {

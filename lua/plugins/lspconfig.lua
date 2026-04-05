@@ -23,13 +23,12 @@ return {
       cssls = {},
       gopls = {},
       html = {},
-      ty = {},
-      -- Ruff: extremely fast Python linter/formatter (Rust-based).
-      -- Complements ty (type checking) with lint diagnostics and formatting.
-      ruff = {},
+      ty = {}, -- fast Python type checking
+      ruff = {}, -- fast Python lint/format
       -- vtsls: fast TypeScript/JavaScript language server.
       vtsls = {},
       bashls = {},
+      zls = {},
       nil_ls = {},
       terraformls = {},
       marksman = {},
@@ -50,14 +49,14 @@ return {
       'stylua',
       'gofumpt',
       'hadolint',
-      'jsonlint',
       'tflint',
-      'vale',
       'prettierd',
       'shellcheck',
       'shfmt',
-      'statix',
       'markdownlint',
+      'clang-format',
+      'alejandra',
+      'ruff',
     }
 
     require('mason-tool-installer').setup {

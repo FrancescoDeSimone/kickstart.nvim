@@ -17,14 +17,25 @@ return {
       lint.linters_by_ft = {
         markdown = { 'markdownlint' },
         dockerfile = { 'hadolint' },
-        json = { 'jsonlint' },
-        rst = { 'vale' },
         terraform = { 'tflint' },
-        text = { 'vale' },
         sh = { 'shellcheck' },
         bash = { 'shellcheck' },
-        nix = { 'statix' },
+        nix = { 'deadnix', 'statix' },
       }
+
+      local statix_cmd = vim.fn.exepath 'statix'
+      if statix_cmd ~= '' then
+        lint.linters.statix = vim.tbl_deep_extend('force', lint.linters.statix or {}, {
+          cmd = statix_cmd,
+        })
+      end
+
+      local deadnix_cmd = vim.fn.exepath 'deadnix'
+      if deadnix_cmd ~= '' then
+        lint.linters.deadnix = vim.tbl_deep_extend('force', lint.linters.deadnix or {}, {
+          cmd = deadnix_cmd,
+        })
+      end
     end,
   },
 }

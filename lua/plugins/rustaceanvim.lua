@@ -1,7 +1,7 @@
 return {
   'mrcjkb/rustaceanvim',
   version = '^5', -- Update to latest version
-  lazy = false,
+  ft = 'rust',
   init = function()
     -- Move the config from globals.lua to here
     vim.g.rustaceanvim = {

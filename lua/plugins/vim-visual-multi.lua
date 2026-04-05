@@ -1,7 +1,7 @@
 return {
   'mg979/vim-visual-multi',
   branch = 'master',
-  lazy = false,
+  event = 'VeryLazy',
   init = function()
     vim.g.VM_maps = {
       ['Find Under'] = '<C-n>',
