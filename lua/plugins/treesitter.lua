@@ -12,7 +12,16 @@ return { -- Highlight, edit, and navigate code
   --   [n / ]n (visual mode) = previous/next sibling node
   -- No plugin config needed — these work out of the box with treesitter parsers.
   opts = {
-    ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'regex' },
+    ensure_installed = {
+      'bash', 'c', 'diff', 'html', 'lua', 'luadoc',
+      'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'regex',
+      'rust', 'cpp', 'zig',
+      'go', 'gomod', 'gosum',
+      'typescript', 'javascript', 'tsx', 'css',
+      'python',
+      'nix', 'terraform', 'hcl',
+      'json', 'yaml', 'toml',
+    },
     -- incremental_selection = {
     --   enable = true,
     --   keymaps = {
@@ -31,7 +40,6 @@ return { -- Highlight, edit, and navigate code
         goto_previous_end = { ['[F'] = '@function.outer', ['[C'] = '@class.outer', ['[A'] = '@parameter.inner' },
       },
     },
-    -- Autoinstall languages that are not installed
     auto_install = true,
     highlight = {
       enable = true,

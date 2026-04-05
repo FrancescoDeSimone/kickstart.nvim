@@ -40,6 +40,23 @@ vim.keymap.set('n', '<leader>tp', '<Cmd>tabprev<CR>', { desc = 'Previous Tab' })
 vim.keymap.set('n', '<leader>Ss', '<Cmd>mksession!<CR>', { desc = 'Save Session' })
 vim.keymap.set('n', '<leader>Sl', '<Cmd>source Session.vim<CR>', { desc = 'Load Session' })
 
+vim.keymap.set('n', '<leader>U', '<cmd>Undotree<CR>', { desc = 'Toggle Undotree' })
+vim.keymap.set('n', '<leader>uH', '<cmd>TOhtml<CR>', { desc = 'Export buffer to HTML' })
+vim.keymap.set('n', '<leader>xq', function()
+  local ns = vim.api.nvim_create_namespace 'qflist_diagnostics'
+  local diags = vim.diagnostic.fromqflist(vim.fn.getqflist(), { merge_lines = true })
+  local by_buf = {}
+  for _, d in ipairs(diags) do
+    local b = d.bufnr or 0
+    by_buf[b] = by_buf[b] or {}
+    table.insert(by_buf[b], d)
+  end
+  for b, ds in pairs(by_buf) do
+    vim.diagnostic.set(ns, b, ds)
+  end
+  vim.notify(('Loaded %d quickfix items as diagnostics'):format(#diags))
+end, { desc = 'Quickfix → diagnostics (merge multiline)' })
+
 -- Fold management
 vim.keymap.set('n', '<leader>fo', 'za', { desc = 'Toggle Fold' })
 vim.keymap.set('n', '<leader>fO', 'zA', { desc = 'Toggle All Folds' })

@@ -35,6 +35,10 @@ require('lazy').setup({
   },
 })
 
+vim.cmd.packadd 'nvim.undotree' -- :Undotree  — visual undo-tree navigation
+vim.cmd.packadd 'nvim.tohtml' --  :TOhtml    — export buffer to HTML
+vim.cmd.packadd 'nvim.difftool' -- :DiffTool  — compare two files/directories
+
 -- Use g< or ENTER to open the pager.
 require('vim._core.ui2').enable {
   msg = {

@@ -17,6 +17,7 @@ local options = {
     diff = '╱',
     eob = ' ',
     fold = ' ',
+    foldinner = '│', -- Nvim 0.12: line shown inside collapsed folds
     horiz = '━',
     horizdown = '┳',
     horizup = '┻',
@@ -38,7 +39,7 @@ local options = {
   inccommand = 'split',
   incsearch = true,
   list = true,
-  listchars = 'tab:→ ,nbsp:␣,trail:•,extends:⟩,precedes:⟨',
+  listchars = 'tab:→ ,leadtab:» ,nbsp:␣,trail:•,extends:⟩,precedes:⟨', -- leadtab: Nvim 0.12
   modeline = true,
   modelines = 100,
   mouse = 'a',
@@ -73,6 +74,11 @@ local options = {
   pumborder = 'rounded',
   winborder = 'rounded',
   messagesopt = 'hit-enter,history:500,progress:c',
+  chistory = 10, -- quickfix stack depth (:colder/:cnewer levels)
+  lhistory = 10, -- loclist stack depth  (:lolder/:lnewer levels)
+  maxsearchcount = 9999, -- raise cap for n/N match count display (default 999)
+  pummaxwidth = 50, -- limit completion popup width (pumheight already set above)
+  jumpoptions = 'view', -- save/restore scroll position on jumplist and tagstack pop
 }
 
 vim.schedule(function()

@@ -132,6 +132,7 @@ return {
         -- LSP navigation handled by snacks picker: gd, gD, gI, gy, gr (see snacks.lua)
         map('<C-k>', vim.lsp.buf.signature_help, 'Signature Help')
         map('<leader>xl', vim.diagnostic.open_float, 'Show line diagnostics')
+        map('<leader>xW', vim.lsp.buf.workspace_diagnostics, 'LSP Workspace Diagnostics')
 
         -- Inlay hints toggle
         if client:supports_method 'textDocument/inlayHint' then
