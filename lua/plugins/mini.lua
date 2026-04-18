@@ -1,4 +1,4 @@
-return { -- Collection of various small independent plugins/modules
+return {
   'nvim-mini/mini.nvim',
   config = function()
     require('mini.ai').setup {
@@ -77,8 +77,6 @@ return { -- Collection of various small independent plugins/modules
       return ''
     end
 
-    -- Setup --
-
     MiniStatusline.setup {
       use_icons = vim.g.have_nerd_font,
       content = {
@@ -111,7 +109,13 @@ return { -- Collection of various small independent plugins/modules
         end,
       },
     }
-
-    vim.cmd 'highlight MiniStatuslineModeNormal guibg=Yellow guifg=Black'
+    local function set_mini_hl()
+      vim.api.nvim_set_hl(0, 'MiniStatuslineModeNormal', { bg = 'Yellow', fg = 'Black' })
+    end
+    set_mini_hl()
+    vim.api.nvim_create_autocmd('ColorScheme', {
+      group = vim.api.nvim_create_augroup('mini-statusline-hl', { clear = true }),
+      callback = set_mini_hl,
+    })
   end,
 }

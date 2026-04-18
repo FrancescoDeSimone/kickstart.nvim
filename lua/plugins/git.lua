@@ -1,19 +1,15 @@
 return {
-  -- 1. Neogit: The Magit clone (replaces Fugitive)
   {
     'NeogitOrg/neogit',
     dependencies = {
       'nvim-lua/plenary.nvim',
       'sindrets/diffview.nvim',
-      'folke/snacks.nvim', -- Used for pickers (branches, logs, etc.)
+      'folke/snacks.nvim',
     },
     config = function()
       local neogit = require 'neogit'
       neogit.setup {
-        disable_signs = false,
-        disable_hint = true,
         disable_context_highlighting = false,
-        -- Enable Snacks integration for pickers
         integrations = {
           diffview = true,
           snacks = true,
@@ -27,43 +23,31 @@ return {
           kind = 'split',
         },
         signs = {
-          section = { '', '' },
-          item = { '', '' },
+          section = { '', '' },
+          item = { '', '' },
           hunk = { '', '' },
         },
       }
 
-      -- Keymaps: <leader>g is the entry point
       local map = vim.keymap.set
-      local opts = { desc = '' }
 
-      -- Main Status Dashboard
-      opts.desc = 'Neogit Status'
-      map('n', '<leader>gg', neogit.open, opts)
+      map('n', '<leader>gg', neogit.open, { desc = 'Neogit Status' })
 
-      -- Common Git Actions
-      opts.desc = 'Git Commit'
-      map('n', '<leader>gc', ':Neogit commit<CR>', opts)
-      opts.desc = 'Git Pull'
-      map('n', '<leader>gp', ':Neogit pull<CR>', opts)
-      opts.desc = 'Git Push'
-      map('n', '<leader>gP', ':Neogit push<CR>', opts)
+      map('n', '<leader>gc', function() neogit.open { 'commit' } end, { desc = 'Git Commit' })
+      map('n', '<leader>gp', function() neogit.open { 'pull' } end, { desc = 'Git Pull' })
+      map('n', '<leader>gP', function() neogit.open { 'push' } end, { desc = 'Git Push' })
 
-      -- Branch & Log (Uses Snacks Picker via Neogit)
-      opts.desc = 'Git Branches'
-      map('n', '<leader>gb', ':Neogit branch<CR>', opts)
-      opts.desc = 'Git Log'
-      map('n', '<leader>gl', ':Neogit log<CR>', opts)
+      map('n', '<leader>gb', function() neogit.open { 'branch' } end, { desc = 'Git Branches' })
+      map('n', '<leader>gl', function() neogit.open { 'log' } end, { desc = 'Git Log' })
     end,
   },
 
-  -- 2. Gitsigns: Gutter signs and Hunk actions
   {
     'lewis6991/gitsigns.nvim',
     event = { 'BufReadPre' },
     opts = {
       attach_to_untracked = false,
-      watch_gitdir = { follow_files = false },
+      watch_gitdir = { follow_files = true }, -- follow renames/branch switches
       on_attach = function(bufnr)
         local gs = require 'gitsigns'
 
@@ -113,11 +97,11 @@ return {
         end, { desc = 'Blame Line' })
         map('n', '<leader>ght', gs.toggle_current_line_blame, { desc = 'Toggle Blame' })
         map('n', '<leader>ghd', gs.diffthis, { desc = 'Diff This' })
+        map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>', { desc = 'Select hunk' })
       end,
     },
   },
 
-  -- 3. Diffview: Advanced Diffing Interface
   {
     'sindrets/diffview.nvim',
     cmd = { 'DiffviewOpen', 'DiffviewClose', 'DiffviewToggleFiles', 'DiffviewFocusFiles' },
@@ -138,7 +122,6 @@ return {
     },
   },
 
-  -- 4. Git Conflict: Conflict resolution highlights
   {
     'akinsho/git-conflict.nvim',
     version = '*',

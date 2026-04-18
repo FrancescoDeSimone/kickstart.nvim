@@ -9,7 +9,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 local diag_group = vim.api.nvim_create_augroup('kickstart-disable-diagnostic', { clear = true })
 
 vim.api.nvim_create_autocmd('InsertLeave', {
-  pattern = '*',
   group = diag_group,
   callback = function()
     vim.diagnostic.show(nil, vim.api.nvim_get_current_buf())
@@ -17,7 +16,6 @@ vim.api.nvim_create_autocmd('InsertLeave', {
 })
 
 vim.api.nvim_create_autocmd('InsertEnter', {
-  pattern = '*',
   group = diag_group,
   callback = function()
     vim.diagnostic.hide(nil, vim.api.nvim_get_current_buf())
@@ -27,9 +25,76 @@ vim.api.nvim_create_autocmd('InsertEnter', {
 local misc_group = vim.api.nvim_create_augroup('kickstart-misc', { clear = true })
 
 vim.api.nvim_create_autocmd('VimResized', {
-  pattern = '*',
   group = misc_group,
-  command = 'wincmd =',
+  callback = function()
+    vim.cmd 'wincmd ='
+  end,
+})
+
+-- Restore cursor to last known position when reopening a file
+vim.api.nvim_create_autocmd('BufReadPost', {
+  group = misc_group,
+  callback = function()
+    local mark = vim.api.nvim_buf_get_mark(0, '"')
+    local lcount = vim.api.nvim_buf_line_count(0)
+    if mark[1] > 0 and mark[1] <= lcount then
+      pcall(vim.api.nvim_win_set_cursor, 0, mark)
+    end
+  end,
+})
+
+-- Nvim 0.12: Clear LSP state before restoring a session
+vim.api.nvim_create_autocmd('SessionLoadPre', {
+  group = misc_group,
+  callback = function()
+    -- Close all floating windows to avoid stale LSP popups
+    for _, win in ipairs(vim.api.nvim_list_wins()) do
+      if vim.api.nvim_win_get_config(win).relative ~= '' then
+        pcall(vim.api.nvim_win_close, win, false)
+      end
+    end
+  end,
+})
+
+-- FileType-specific settings
+local ft_group = vim.api.nvim_create_augroup('kickstart-filetype', { clear = true })
+
+vim.api.nvim_create_autocmd('FileType', {
+  group = ft_group,
+  pattern = 'gitcommit',
+  callback = function()
+    vim.opt_local.textwidth = 72
+    vim.opt_local.spell = true
+  end,
+})
+
+vim.api.nvim_create_autocmd('FileType', {
+  group = ft_group,
+  pattern = 'markdown',
+  callback = function()
+    vim.opt_local.wrap = true
+    vim.opt_local.spell = true
+    vim.opt_local.conceallevel = 2
+  end,
+})
+
+vim.api.nvim_create_autocmd('FileType', {
+  group = ft_group,
+  pattern = 'help',
+  callback = function()
+    vim.opt_local.list = false
+    vim.opt_local.spell = false
+    vim.keymap.set('n', 'q', '<cmd>close<CR>', { buffer = true, desc = 'Close help' })
+  end,
+})
+
+vim.api.nvim_create_autocmd('FileType', {
+  group = ft_group,
+  pattern = 'qf',
+  callback = function()
+    vim.opt_local.spell = false
+    vim.keymap.set('n', 'q', '<cmd>close<CR>', { buffer = true, desc = 'Close quickfix' })
+  end,
 })
 
 -- Nvim 0.12 new highlight groups — styled for gruber-darker.
@@ -46,6 +111,8 @@ vim.api.nvim_create_autocmd('ColorScheme', {
     vim.api.nvim_set_hl(0, 'OkMsg', { fg = '#73d936' })
     vim.api.nvim_set_hl(0, 'StderrMsg', { fg = '#f43841' })
     vim.api.nvim_set_hl(0, 'StdoutMsg', { fg = '#96a6c8' })
+    -- Symbol being renamed (vim.lsp.buf.rename visual indicator, Nvim 0.12)
+    vim.api.nvim_set_hl(0, 'LspReferenceTarget', { fg = '#ffdd33', bold = true })
   end,
 })
 -- Apply immediately for the current session (before the next :colorscheme load)

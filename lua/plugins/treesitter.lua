@@ -48,7 +48,7 @@ return { -- Highlight, edit, and navigate code
       --  the list of additional_vim_regex_highlighting and disabled languages for indent.
       additional_vim_regex_highlighting = { 'ruby' },
       disable = function(_, buf)
-        local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+        local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(buf))
         if ok and stats and stats.size and stats.size > 200 * 1024 then
           return true
         end
@@ -65,7 +65,7 @@ return { -- Highlight, edit, and navigate code
         if lang == 'ruby' then
           return true
         end
-        local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+        local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(buf))
         if ok and stats and stats.size and stats.size > 200 * 1024 then
           return true
         end

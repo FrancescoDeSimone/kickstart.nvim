@@ -36,12 +36,11 @@ vim.keymap.set('n', '<leader>tc', '<Cmd>tabclose<CR>', { desc = 'Close Tab' })
 vim.keymap.set('n', '<leader>tn', '<Cmd>tabnext<CR>', { desc = 'Next Tab' })
 vim.keymap.set('n', '<leader>tp', '<Cmd>tabprev<CR>', { desc = 'Previous Tab' })
 
--- Session management (prefixed with S to avoid conflict with Snacks <leader>ss/<leader>sl)
+-- Session management
 vim.keymap.set('n', '<leader>Ss', '<Cmd>mksession!<CR>', { desc = 'Save Session' })
 vim.keymap.set('n', '<leader>Sl', '<Cmd>source Session.vim<CR>', { desc = 'Load Session' })
 
-vim.keymap.set('n', '<leader>U', '<cmd>Undotree<CR>', { desc = 'Toggle Undotree' })
-vim.keymap.set('n', '<leader>uH', '<cmd>TOhtml<CR>', { desc = 'Export buffer to HTML' })
+-- Quickfix → diagnostics (merge multiline compiler errors into inline diagnostics)
 vim.keymap.set('n', '<leader>xq', function()
   local ns = vim.api.nvim_create_namespace 'qflist_diagnostics'
   local diags = vim.diagnostic.fromqflist(vim.fn.getqflist(), { merge_lines = true })
@@ -62,3 +61,11 @@ vim.keymap.set('n', '<leader>fo', 'za', { desc = 'Toggle Fold' })
 vim.keymap.set('n', '<leader>fO', 'zA', { desc = 'Toggle All Folds' })
 vim.keymap.set('n', '<leader>fr', 'zR', { desc = 'Open All Folds' })
 vim.keymap.set('n', '<leader>fm', 'zM', { desc = 'Close All Folds' })
+
+-- Nvim 0.12 built-in optional plugins
+vim.keymap.set('n', '<leader>U', '<cmd>Undotree<CR>', { desc = 'Toggle Undotree' })
+vim.keymap.set('n', '<leader>uH', '<cmd>TOhtml<CR>', { desc = 'Export buffer to HTML' })
+vim.keymap.set('n', '<leader>td', '<cmd>DiffTool<CR>', { desc = 'Diff Tool' })
+
+-- LSP
+vim.keymap.set('n', '<leader>tl', function() vim.lsp.codelens.enable(true) end, { desc = 'Refresh Codelenses' })

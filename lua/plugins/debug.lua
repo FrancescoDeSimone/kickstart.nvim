@@ -80,7 +80,22 @@ return {
         end,
       },
       'lucaSartore/nvim-dap-exception-breakpoints',
-      'theHamsta/nvim-dap-virtual-text',
+      {
+        'igorlfs/nvim-dap-view',
+        lazy = false,
+        version = '1.*',
+        ---@module 'dap-view'
+        ---@type dapview.Config
+        opts = {
+          virtual_text = {
+            enabled = true,
+          },
+          auto_toggle = true,
+          winbar = {
+            sections = { 'watches', 'scopes', 'exceptions', 'breakpoints', 'threads', 'repl', 'console' },
+          },
+        },
+      },
     },
 
     config = function()
@@ -108,7 +123,6 @@ return {
         command = cpptools_path,
       }
 
-      -- Nvim 0.12: use dap.defaults for sign configuration (replaces vim.fn.sign_define)
       local dap_signs = {
         DapBreakpoint = { text = '🛑', texthl = 'Error' },
         DapBreakpointCondition = { text = '❓', texthl = 'WarningMsg' },
@@ -117,6 +131,9 @@ return {
       for name, sign in pairs(dap_signs) do
         vim.fn.sign_define(name, sign)
       end
+
+      local edit_exception_breakpoints = require 'nvim-dap-exception-breakpoints'
+      vim.keymap.set('n', '<leader>De', edit_exception_breakpoints, { desc = 'DAP Edit Exception Breakpoints' })
     end,
   },
 }

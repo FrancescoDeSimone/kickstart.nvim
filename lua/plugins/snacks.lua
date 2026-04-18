@@ -276,7 +276,7 @@ return {
       desc = 'Toggle Scratch Buffer',
     },
     {
-      '<leader>S',
+      '<leader>.s',
       function()
         Snacks.scratch.select()
       end,

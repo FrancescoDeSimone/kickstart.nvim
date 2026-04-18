@@ -1,6 +1,6 @@
 return { -- Formatting (manual via <leader>rf)
   'stevearc/conform.nvim',
-  event = { 'BufWritePre', 'BufReadPre' },
+  event = { 'BufWritePre' },
   cmd = { 'ConformInfo' },
   keys = {
     {
@@ -14,7 +14,6 @@ return { -- Formatting (manual via <leader>rf)
   },
   opts = {
     notify_on_error = false,
-    -- Format-on-save: disabled by default. Toggle with <leader>uf (see snacks.lua).
     format_on_save = function(bufnr)
       if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
         return

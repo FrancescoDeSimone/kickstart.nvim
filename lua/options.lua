@@ -1,17 +1,14 @@
 local options = {
   showmode = false,
   confirm = true,
-  autoindent = true,
   breakindent = true,
   cc = '80,120',
-  cmdheight = 0,
+  cmdheight = 1,
   -- NOTE: completeopt removed — blink.cmp manages this at runtime
   copyindent = true,
   cursorline = false,
-  encoding = 'utf-8',
-  equalalways = true,
   expandtab = true,
-  smartindent = true,
+  softtabstop = -1, -- mirror shiftwidth: <BS> deletes a full indent stop in insert mode
   fileencoding = 'utf-8',
   fillchars = {
     diff = '╱',
@@ -34,14 +31,14 @@ local options = {
   foldlevelstart = -1,
   foldmethod = 'expr',
   formatexpr = "v:lua.require'conform'.formatexpr()",
-  hidden = true,
+  -- NOTE: 'hidden' removed — default true in Neovim
   ignorecase = true,
   inccommand = 'split',
-  incsearch = true,
+  -- NOTE: 'incsearch' removed — default true in Neovim
   list = true,
   listchars = 'tab:→ ,leadtab:» ,nbsp:␣,trail:•,extends:⟩,precedes:⟨', -- leadtab: Nvim 0.12
   modeline = true,
-  modelines = 100,
+  modelines = 5,
   mouse = 'a',
   mousemodel = 'extend',
   number = true,
@@ -55,15 +52,18 @@ local options = {
   showbreak = '↪\\',
   signcolumn = 'yes:2',
   smartcase = true,
+  -- NOTE: 'startofline' removed — Nvim default is false (preserves column on G/gg/<C-d>)
   spell = true,
   splitbelow = true,
   splitright = true,
-  startofline = true,
   swapfile = false,
   synmaxcol = 125,
   tabstop = 2,
   -- NOTE: 'termguicolors' removed — default true since Nvim 0.10
   -- NOTE: 'ttyfast' removed — no-op in Neovim (Vim legacy option)
+  -- NOTE: 'autoindent' removed — default true in Neovim
+  -- NOTE: 'equalalways' removed — default true in Neovim
+  -- NOTE: 'encoding' removed — read-only after startup; fileencoding is set above
   timeoutlen = 100,
   undofile = true,
   updatetime = 100,

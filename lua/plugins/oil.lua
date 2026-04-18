@@ -7,7 +7,7 @@ return {
       cmd = 'Oil',
       opts = {
         columns = { 'type', { 'icon', default_file = 'bar', directory = 'dir', highlight = 'Foo' }, 'size', 'permissions' },
-        experimental_watch_for_changes = true,
+        watch_for_changes = true,
         keymaps = { ['<C-r>'] = 'actions.refresh', ['q'] = 'actions.close', ['y.'] = 'actions.copy_entry_path' },
         skip_confirm_for_simple_edits = true,
         default_file_explorer = true,

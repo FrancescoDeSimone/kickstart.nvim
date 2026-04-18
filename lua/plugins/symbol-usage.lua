@@ -1,19 +1,19 @@
-local function h(name)
-  return vim.api.nvim_get_hl(0, { name = name })
+local function set_hl()
+  local function h(name)
+    return vim.api.nvim_get_hl(0, { name = name })
+  end
+  vim.api.nvim_set_hl(0, 'SymbolUsageRounding', { fg = h('CursorLine').bg, italic = true })
+  vim.api.nvim_set_hl(0, 'SymbolUsageContent', { bg = h('CursorLine').bg, fg = h('Comment').fg, italic = true })
+  vim.api.nvim_set_hl(0, 'SymbolUsageRef', { fg = h('Function').fg, bg = h('CursorLine').bg, italic = true })
+  vim.api.nvim_set_hl(0, 'SymbolUsageDef', { fg = h('Type').fg, bg = h('CursorLine').bg, italic = true })
+  vim.api.nvim_set_hl(0, 'SymbolUsageImpl', { fg = h('@keyword').fg, bg = h('CursorLine').bg, italic = true })
 end
-
--- hl-groups can have any name
-vim.api.nvim_set_hl(0, 'SymbolUsageRounding', { fg = h('CursorLine').bg, italic = true })
-vim.api.nvim_set_hl(0, 'SymbolUsageContent', { bg = h('CursorLine').bg, fg = h('Comment').fg, italic = true })
-vim.api.nvim_set_hl(0, 'SymbolUsageRef', { fg = h('Function').fg, bg = h('CursorLine').bg, italic = true })
-vim.api.nvim_set_hl(0, 'SymbolUsageDef', { fg = h('Type').fg, bg = h('CursorLine').bg, italic = true })
-vim.api.nvim_set_hl(0, 'SymbolUsageImpl', { fg = h('@keyword').fg, bg = h('CursorLine').bg, italic = true })
 
 local function text_format(symbol)
   local res = {}
 
-  local round_start = { '', 'SymbolUsageRounding' }
-  local round_end = { '', 'SymbolUsageRounding' }
+  local round_start = { '', 'SymbolUsageRounding' }
+  local round_end = { '', 'SymbolUsageRounding' }
 
   -- Indicator that shows if there are any other symbols in the same line
   local stacked_functions_content = symbol.stacked_count > 0 and ('+%s'):format(symbol.stacked_count) or ''
@@ -52,7 +52,7 @@ local function text_format(symbol)
       table.insert(res, { ' ', 'NonText' })
     end
     table.insert(res, round_start)
-    table.insert(res, { ' ', 'SymbolUsageImpl' })
+    table.insert(res, { ' ', 'SymbolUsageImpl' })
     table.insert(res, { stacked_functions_content, 'SymbolUsageContent' })
     table.insert(res, round_end)
   end
@@ -64,6 +64,13 @@ return {
   'Wansmer/symbol-usage.nvim',
   event = 'LspAttach',
   config = function()
+    -- Apply highlights now and re-apply after every colorscheme change
+    set_hl()
+    vim.api.nvim_create_autocmd('ColorScheme', {
+      group = vim.api.nvim_create_augroup('symbol-usage-hl', { clear = true }),
+      callback = set_hl,
+    })
+
     require('symbol-usage').setup {
       text_format = text_format,
     }

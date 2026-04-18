@@ -36,6 +36,12 @@ return {
           cmd = deadnix_cmd,
         })
       end
+      vim.api.nvim_create_autocmd({ 'BufWritePost', 'InsertLeave' }, {
+        group = vim.api.nvim_create_augroup('nvim-lint-auto', { clear = true }),
+        callback = function()
+          lint.try_lint()
+        end,
+      })
     end,
   },
 }
