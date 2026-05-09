@@ -1,5 +1,6 @@
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>', { desc = 'Clear highlight search' })
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
+vim.keymap.set('t', '<C-w>', '<C-\\><C-n><C-w>', { desc = 'Window commands from terminal' })
 vim.keymap.set('n', 'gp', '`[v`]', { desc = 'Select last pasted text' })
 
 vim.keymap.set('n', '<leader>rw', ':s/\\v(.{80})/\\1\\r/g<CR>', { desc = 'Wrap line at 80 chars' })
