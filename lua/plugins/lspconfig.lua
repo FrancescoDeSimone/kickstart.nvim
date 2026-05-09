@@ -13,6 +13,13 @@ return {
     -- and default statusline integration via vim.ui.progress_status().
   },
   config = function()
+    local has_ui = #vim.api.nvim_list_uis() > 0
+    local leetcode_home = vim.fs.normalize(vim.fn.stdpath 'data' .. '/leetcode')
+    local function is_leetcode_buffer(bufnr)
+      local name = vim.api.nvim_buf_get_name(bufnr)
+      return name ~= '' and vim.fs.normalize(name):find(leetcode_home, 1, true) == 1
+    end
+
     -- This section ensures Mason is set up first before other plugins use it.
     require('mason').setup()
 
@@ -61,6 +68,7 @@ return {
 
     require('mason-tool-installer').setup {
       ensure_installed = tools,
+      run_on_start = has_ui,
     }
 
     -- Ensure Mason installs the LSP servers we need.
@@ -118,6 +126,18 @@ return {
       group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
       callback = function(event)
         local bufnr = event.buf
+        if is_leetcode_buffer(bufnr) then
+          vim.diagnostic.enable(false, { bufnr = bufnr })
+          local client = vim.lsp.get_client_by_id(event.data.client_id)
+          if client then
+            vim.schedule(function()
+              if vim.api.nvim_buf_is_valid(bufnr) then
+                vim.lsp.buf_detach_client(bufnr, client.id)
+              end
+            end)
+          end
+          return
+        end
         local client = vim.lsp.get_client_by_id(event.data.client_id)
         if not client then
           return

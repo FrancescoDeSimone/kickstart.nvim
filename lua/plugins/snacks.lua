@@ -9,17 +9,20 @@ return {
       -- (uses default threshold when nil; override to 0.5MB / 500KB)
       filesize = 500 * 1024,
     },
-    explorer = { enabled = true },
-    indent = { enabled = true, animate = { enabled = false } },
-    input = { enabled = true },
     picker = {
       enabled = true,
+      db = {
+        sqlite3_path = '/usr/lib/x86_64-linux-gnu/libsqlite3.so.0',
+      },
       sources = {
         explorer = {
           regex_parents = true,
         },
       },
     },
+    explorer = { enabled = true },
+    indent = { enabled = true, animate = { enabled = false } },
+    input = { enabled = true },
     quickfile = { enabled = true },
     scope = { enabled = true },
     words = { enabled = true },
@@ -46,6 +49,17 @@ return {
       },
     },
   },
+  config = function(_, opts)
+    require('snacks').setup(opts)
+    require('snacks.input').enable()
+    require('snacks.picker').setup()
+
+    -- Suppress health noise for intentionally disabled or unused extras.
+    require('snacks.dashboard').meta.health = false
+    require('snacks.image').meta.health = false
+    require('snacks.lazygit').meta.health = false
+    require('snacks.scroll').meta.health = false
+  end,
   keys = {
     -- Top Pickers
     {

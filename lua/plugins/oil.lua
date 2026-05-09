@@ -1,58 +1,51 @@
 return {
   {
-    {
-      'stevearc/oil.nvim',
-      ---@module 'oil'
-      ---@type oil.SetupOpts
-      cmd = 'Oil',
-      opts = {
-        columns = { 'type', { 'icon', default_file = 'bar', directory = 'dir', highlight = 'Foo' }, 'size', 'permissions' },
-        watch_for_changes = true,
-        keymaps = { ['<C-r>'] = 'actions.refresh', ['q'] = 'actions.close', ['y.'] = 'actions.copy_entry_path' },
-        skip_confirm_for_simple_edits = true,
-        default_file_explorer = true,
-        view_options = { show_hidden = true },
-        win_options = {
-          concealcursor = 'ncv',
-          conceallevel = 3,
-          cursorcolumn = false,
-          foldcolumn = '0',
-          list = false,
-          signcolumn = 'yes',
-          spell = false,
-          winbar = "%{v:lua.require('oil').get_current_dir()}",
-          wrap = false,
-        },
+    'stevearc/oil.nvim',
+    ---@module 'oil'
+    ---@type oil.SetupOpts
+    cmd = 'Oil',
+    opts = {
+      columns = { 'type', { 'icon', default_file = 'bar', directory = 'dir', highlight = 'Foo' }, 'size', 'permissions' },
+      watch_for_changes = true,
+      keymaps = { ['<C-r>'] = 'actions.refresh', ['q'] = 'actions.close', ['y.'] = 'actions.copy_entry_path' },
+      skip_confirm_for_simple_edits = true,
+      default_file_explorer = true,
+      view_options = { show_hidden = true },
+      win_options = {
+        concealcursor = 'ncv',
+        conceallevel = 3,
+        cursorcolumn = false,
+        foldcolumn = '0',
+        list = false,
+        signcolumn = 'yes',
+        spell = false,
+        winbar = "%{v:lua.require('oil').get_current_dir()}",
+        wrap = false,
       },
-      keys = {
-        {
-          '-',
-          function()
-            require('oil').open(nil, { preview = { vertical = true } })
-          end,
-          desc = 'Open parent directory',
-        },
-        {
-          '<leader>-',
-          function()
-            vim.cmd 'vsplit | wincmd l'
-            require('oil').open()
-          end,
-          desc = 'File Explorer (Oil)',
-        },
-      },
-      dependencies = { { 'echasnovski/mini.icons', opts = {} } },
-      -- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
-      -- lazy = false,
     },
-    {
+    keys = {
+      {
+        '-',
+        function()
+          require('oil').open(nil, { preview = { vertical = true } })
+        end,
+        desc = 'Open parent directory',
+      },
+      {
+        '<leader>-',
+        function()
+          vim.cmd 'vsplit | wincmd l'
+          require('oil').open()
+        end,
+        desc = 'File Explorer (Oil)',
+      },
+    },
+    dependencies = {
+      { 'echasnovski/mini.icons', opts = {} },
       'benomahony/oil-git.nvim',
-      dependencies = { 'stevearc/oil.nvim' },
+      { 'JezerM/oil-lsp-diagnostics.nvim', opts = {} },
     },
-    {
-      'JezerM/oil-lsp-diagnostics.nvim',
-      dependencies = { 'stevearc/oil.nvim' },
-      opts = {},
-    },
+    -- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
+    -- lazy = false,
   },
 }

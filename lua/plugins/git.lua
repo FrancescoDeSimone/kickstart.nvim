@@ -113,6 +113,7 @@ return {
     },
     opts = {
       enhanced_diff_hl = true,
+      hg_cmd = { 'true' },
       view = {
         merge_tool = {
           layout = 'diff3_mixed',
@@ -125,6 +126,7 @@ return {
   {
     'akinsho/git-conflict.nvim',
     version = '*',
+    event = 'BufReadPre',
     config = true,
     opts = {
       default_mappings = true, -- uses co, ct, cb, c0

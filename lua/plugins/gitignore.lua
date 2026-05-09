@@ -4,13 +4,8 @@ return {
   keys = {
     {
       '<leader>gi',
-      function()
-        require 'gitignore'
-      end,
+      '<cmd>Gitignore<CR>',
       desc = 'Generate .gitignore',
     },
   },
-  config = function()
-    require 'gitignore'
-  end,
 }

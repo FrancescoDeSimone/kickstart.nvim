@@ -53,7 +53,7 @@ local options = {
   signcolumn = 'yes:2',
   smartcase = true,
   -- NOTE: 'startofline' removed — Nvim default is false (preserves column on G/gg/<C-d>)
-  spell = true,
+  spell = false,
   splitbelow = true,
   splitright = true,
   swapfile = false,

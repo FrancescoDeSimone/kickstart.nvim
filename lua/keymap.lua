@@ -68,4 +68,6 @@ vim.keymap.set('n', '<leader>uH', '<cmd>TOhtml<CR>', { desc = 'Export buffer to 
 vim.keymap.set('n', '<leader>td', '<cmd>DiffTool<CR>', { desc = 'Diff Tool' })
 
 -- LSP
-vim.keymap.set('n', '<leader>tl', function() vim.lsp.codelens.enable(true) end, { desc = 'Refresh Codelenses' })
+vim.keymap.set('n', '<leader>tl', function()
+  vim.lsp.codelens.refresh { bufnr = 0 }
+end, { desc = 'Refresh Codelenses' })
