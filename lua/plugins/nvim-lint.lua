@@ -38,8 +38,11 @@ return {
       end
       vim.api.nvim_create_autocmd({ 'BufWritePost', 'InsertLeave' }, {
         group = vim.api.nvim_create_augroup('nvim-lint-auto', { clear = true }),
-        callback = function()
-          lint.try_lint()
+        callback = function(args)
+          if vim.b[args.buf].disable_lint then
+            return
+          end
+          lint.try_lint(nil, { buf = args.buf })
         end,
       })
     end,

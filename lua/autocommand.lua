@@ -6,19 +6,42 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+vim.filetype.add {
+  extension = {
+    mdx = 'markdown.mdx',
+  },
+  pattern = {
+    ['.*%.gotmpl'] = 'gotmpl',
+  },
+}
+
+local function is_leetcode_buffer(bufnr)
+  local name = vim.api.nvim_buf_get_name(bufnr)
+  local leetcode_home = vim.fs.normalize(vim.fn.stdpath 'data' .. '/leetcode')
+  return name ~= '' and vim.fs.normalize(name):find(leetcode_home, 1, true) == 1
+end
+
 local diag_group = vim.api.nvim_create_augroup('kickstart-disable-diagnostic', { clear = true })
 
 vim.api.nvim_create_autocmd('InsertLeave', {
   group = diag_group,
   callback = function()
-    vim.diagnostic.show(nil, vim.api.nvim_get_current_buf())
+    local bufnr = vim.api.nvim_get_current_buf()
+    if is_leetcode_buffer(bufnr) then
+      return
+    end
+    vim.diagnostic.show(nil, bufnr)
   end,
 })
 
 vim.api.nvim_create_autocmd('InsertEnter', {
   group = diag_group,
   callback = function()
-    vim.diagnostic.hide(nil, vim.api.nvim_get_current_buf())
+    local bufnr = vim.api.nvim_get_current_buf()
+    if is_leetcode_buffer(bufnr) then
+      return
+    end
+    vim.diagnostic.hide(nil, bufnr)
   end,
 })
 
@@ -94,6 +117,18 @@ vim.api.nvim_create_autocmd('FileType', {
   callback = function()
     vim.opt_local.spell = false
     vim.keymap.set('n', 'q', '<cmd>close<CR>', { buffer = true, desc = 'Close quickfix' })
+  end,
+})
+
+vim.api.nvim_create_autocmd({ 'BufReadPost', 'BufNewFile' }, {
+  group = ft_group,
+  callback = function(args)
+    if not is_leetcode_buffer(args.buf) then
+      return
+    end
+    vim.b[args.buf].disable_autoformat = true
+    vim.b[args.buf].disable_lint = true
+    vim.diagnostic.enable(false, { bufnr = args.buf })
   end,
 })
 

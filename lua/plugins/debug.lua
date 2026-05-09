@@ -1,3 +1,7 @@
+local function mason_bin(name)
+  return vim.fs.joinpath(vim.fn.stdpath 'data', 'mason', 'bin', name)
+end
+
 return {
   {
     'mfussenegger/nvim-dap',
@@ -17,7 +21,7 @@ return {
       'DapTerminate',
       'DapREPL',
     },
-    ft = { 'rust', 'go', 'python', 'lua', 'cpp', 'c' },
+    ft = { 'rust', 'go', 'python', 'lua', 'cpp', 'c', 'zig' },
     dependencies = {
       'jay-babu/mason-nvim-dap.nvim',
       {
@@ -61,6 +65,11 @@ return {
       {
         'jonboh/nvim-dap-rr',
         config = function()
+          local cppdbg_path = mason_bin 'OpenDebugAD7'
+          if vim.fn.executable(cppdbg_path) ~= 1 then
+            return
+          end
+
           local rr_dap = require 'nvim-dap-rr'
           rr_dap.setup {}
 
@@ -100,15 +109,16 @@ return {
 
     config = function()
       local dap = require 'dap'
+      local has_ui = #vim.api.nvim_list_uis() > 0
 
       require('mason-nvim-dap').setup {
-        automatic_installation = true,
-        ensure_installed = {
+        automatic_installation = has_ui,
+        ensure_installed = has_ui and {
           'codelldb',
           'cpptools',
           'debugpy',
           'delve',
-        },
+        } or {},
       }
 
       local debugpy_path = vim.fn.stdpath 'data' .. '/mason/packages/debugpy/venv/bin/python'
@@ -116,12 +126,55 @@ return {
 
       require('dap-go').setup()
 
-      local cpptools_path = vim.fn.stdpath 'data' .. '/mason/packages/cpptools/extension/debugAdapters/bin/OpenDebugAD7'
-      dap.adapters.cppdbg = {
-        id = 'cppdbg',
-        type = 'executable',
-        command = cpptools_path,
-      }
+      local codelldb_path = mason_bin 'codelldb'
+      local liblldb_path = vim.fs.joinpath(vim.fn.stdpath 'data', 'mason', 'packages', 'codelldb', 'extension', 'lldb', 'lib', 'liblldb.so')
+      local root = function()
+        local name = vim.api.nvim_buf_get_name(0)
+        if name == '' then
+          return vim.uv.cwd()
+        end
+        return vim.fs.root(name, { 'build.zig', '.git' }) or vim.fs.dirname(name)
+      end
+
+      if dap.adapters.codelldb == nil and vim.fn.executable(codelldb_path) == 1 and vim.uv.fs_stat(liblldb_path) then
+        dap.adapters.codelldb = {
+          type = 'server',
+          host = '127.0.0.1',
+          port = '${port}',
+          executable = {
+            command = codelldb_path,
+            args = { '--liblldb', liblldb_path, '--port', '${port}' },
+          },
+        }
+      end
+
+      if dap.adapters.codelldb then
+        dap.configurations.zig = {
+          {
+            name = 'Launch',
+            type = 'codelldb',
+            request = 'launch',
+            cwd = root,
+            program = function()
+              local dir = root()
+              local file = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ':t:r')
+              local bin = file ~= '' and file or vim.fs.basename(dir)
+              return vim.fn.input('Path to executable: ', vim.fs.joinpath(dir, 'zig-out', 'bin', bin), 'file')
+            end,
+            args = {},
+            stopOnEntry = false,
+          },
+        }
+      end
+
+      local cppdbg_path = mason_bin 'OpenDebugAD7'
+      if vim.fn.executable(cppdbg_path) == 1 then
+        dap.adapters.cppdbg = {
+          id = 'cppdbg',
+          type = 'executable',
+          command = cppdbg_path,
+        }
+      end
 
       local dap_signs = {
         DapBreakpoint = { text = '🛑', texthl = 'Error' },
