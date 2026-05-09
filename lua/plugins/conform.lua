@@ -36,6 +36,7 @@ return { -- Formatting (manual via <leader>rf)
       -- rust = { 'rustfmt' }, -- handled by rustaceanvim LSP formatting
       nix = { 'alejandra' },
       go = { 'gofumpt' },
+      zig = { 'zigfmt' },
     },
     default_format_opts = {
       lsp_format = 'fallback',
