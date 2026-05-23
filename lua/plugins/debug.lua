@@ -7,6 +7,8 @@ return {
     'mfussenegger/nvim-dap',
     keys = {
       { '<leader>Dt', desc = 'Toggle Debug Mode' },
+      { '<leader>Db', function() require('dap').toggle_breakpoint() end, desc = 'Toggle Breakpoint' },
+      { '<leader>DB', function() require('dap').set_breakpoint(vim.fn.input 'Breakpoint condition: ') end, desc = 'Set Conditional Breakpoint' },
       { '<F5>', desc = 'DAP Continue' },
       { '<F10>', desc = 'DAP Step Over' },
       { '<F11>', desc = 'DAP Step Into' },
@@ -165,6 +167,23 @@ return {
             stopOnEntry = false,
           },
         }
+        dap.configurations.c = {
+          {
+            name = 'Launch',
+            type = 'codelldb',
+            request = 'launch',
+            cwd = root,
+            program = function()
+              local dir = root()
+              local file = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ':t:r')
+              local bin = file ~= '' and file or vim.fs.basename(dir)
+              return vim.fn.input('Path to executable: ', vim.fs.joinpath(dir, bin), 'file')
+            end,
+            args = {},
+            stopOnEntry = false,
+          },
+        }
+        dap.configurations.cpp = dap.configurations.c
       end
 
       local cppdbg_path = mason_bin 'OpenDebugAD7'
