@@ -43,7 +43,7 @@ local function process_spec(s)
     local version = s.version
     if version == '*' then version = nil end
     if version then
-      vim.pack.add { src = url, version = version }
+      vim.pack.add { { src = url, version = version } }
     else
       vim.pack.add { url }
     end
