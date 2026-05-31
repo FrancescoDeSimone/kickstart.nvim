@@ -5,14 +5,14 @@ local function gh(repo)
 end
 
 function M.process_spec(s)
-  if not s then return end
+  if not s then
+    return
+  end
 
-  -- 1. Run init() function if present
   if type(s.init) == 'function' then
     s.init()
   end
-  
-  -- 2. Add the main plugin
+
   local url = type(s[1]) == 'string' and gh(s[1]) or nil
   if url then
     local version = s.version
@@ -23,11 +23,16 @@ function M.process_spec(s)
         version = vim.version.range(version)
       end
     end
-    
-    -- Support branch/tag/commit aliases
-    if s.branch then version = s.branch end
-    if s.tag then version = s.tag end
-    if s.commit then version = s.commit end
+
+    if s.branch then
+      version = s.branch
+    end
+    if s.tag then
+      version = s.tag
+    end
+    if s.commit then
+      version = s.commit
+    end
 
     if version then
       vim.pack.add { { src = url, version = version } }
@@ -36,7 +41,6 @@ function M.process_spec(s)
     end
   end
 
-  -- 3. Add dependencies
   if s.dependencies then
     for _, dep in ipairs(s.dependencies) do
       local dep_url = type(dep) == 'string' and gh(dep) or (type(dep) == 'table' and type(dep[1]) == 'string' and gh(dep[1]) or nil)
@@ -46,11 +50,9 @@ function M.process_spec(s)
     end
   end
 
-  -- 4. Setup / Config
   local module_name = s.main
   if not module_name and type(s[1]) == 'string' then
-    -- Guess the module name from the github repo name (e.g. 'stevearc/conform.nvim' -> 'conform')
-    module_name = s[1]:match(".*/(.*)"):gsub("%.nvim$", "")
+    module_name = s[1]:match('.*/(.*)'):gsub('%.nvim$', '')
   end
 
   if s.config == true or type(s.config) == 'nil' then
@@ -64,7 +66,6 @@ function M.process_spec(s)
     s.config()
   end
 
-  -- 5. Keymaps
   if s.keys then
     for _, key in ipairs(s.keys) do
       local mode = key.mode or 'n'
