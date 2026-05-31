@@ -1,39 +1,69 @@
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+vim.loader.enable()
+
 require 'globals'
 require 'options'
 require 'keymap'
 require 'autocommand'
-local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
-if not vim.uv.fs_stat(lazypath) then
-  local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
-  local out = vim.fn.system { 'git', 'clone', '--filter=blob:none', '--branch=stable', lazyrepo, lazypath }
-  if vim.v.shell_error ~= 0 then
-    error('Error cloning lazy.nvim:\n' .. out)
+
+local function run_build(name, cmd, cwd)
+  local result = vim.system(cmd, { cwd = cwd }):wait()
+  if result.code ~= 0 then
+    local stderr = result.stderr or ''
+    local stdout = result.stdout or ''
+    local output = stderr ~= '' and stderr or stdout
+    if output == '' then
+      output = 'No output from build command.'
+    end
+    vim.notify(('Build failed for %s:\n%s'):format(name, output), vim.log.levels.ERROR)
   end
 end
-vim.opt.rtp:prepend(lazypath)
-require('lazy').setup({
-  { import = 'plugins' },
-}, {
-  ui = {
-    icons = vim.g.have_nerd_font and {} or {
-      cmd = '⌘',
-      config = '🛠',
-      event = '📅',
-      ft = '📂',
-      init = '⚙',
-      keys = '🗝',
-      plugin = '🔌',
-      runtime = '💻',
-      require = '🌙',
-      source = '📄',
-      start = '🚀',
-      task = '📌',
-      lazy = '💤 ',
-    },
-  },
+
+vim.api.nvim_create_autocmd('PackChanged', {
+  callback = function(ev)
+    local name = ev.data.spec.name
+    local kind = ev.data.kind
+    if kind ~= 'install' and kind ~= 'update' then
+      return
+    end
+
+    if name == 'telescope-fzf-native.nvim' and vim.fn.executable 'make' == 1 then
+      run_build(name, { 'make' }, ev.data.path)
+      return
+    end
+
+    if name == 'LuaSnip' then
+      if vim.fn.has 'win32' ~= 1 and vim.fn.executable 'make' == 1 then
+        run_build(name, { 'make', 'install_jsregexp' }, ev.data.path)
+      end
+      return
+    end
+
+    if name == 'nvim-treesitter' then
+      if not ev.data.active then
+        vim.cmd.packadd 'nvim-treesitter'
+      end
+      vim.cmd 'TSUpdate'
+      return
+    end
+    
+    if name == 'snacks.nvim' then
+      if not ev.data.active then
+        vim.cmd.packadd 'snacks.nvim'
+      end
+      return
+    end
+  end,
 })
+
+local plugins_dir = vim.fs.joinpath(vim.fn.stdpath 'config', 'lua', 'plugins')
+for file_name, type in vim.fs.dir(plugins_dir) do
+  if type == 'file' and file_name:match '%.lua$' then
+    local module = file_name:gsub('%.lua$', '')
+    require('plugins.' .. module)
+  end
+end
 
 vim.cmd.packadd 'nvim.undotree' -- :Undotree  — visual undo-tree navigation
 vim.cmd.packadd 'nvim.tohtml' --  :TOhtml    — export buffer to HTML
