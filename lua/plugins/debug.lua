@@ -2,13 +2,25 @@ local function mason_bin(name)
   return vim.fs.joinpath(vim.fn.stdpath 'data', 'mason', 'bin', name)
 end
 
-local spec = {
+return {
   {
     'mfussenegger/nvim-dap',
     keys = {
       { '<leader>Dt', desc = 'Toggle Debug Mode' },
-      { '<leader>Db', function() require('dap').toggle_breakpoint() end, desc = 'Toggle Breakpoint' },
-      { '<leader>DB', function() require('dap').set_breakpoint(vim.fn.input 'Breakpoint condition: ') end, desc = 'Set Conditional Breakpoint' },
+      {
+        '<leader>Db',
+        function()
+          require('dap').toggle_breakpoint()
+        end,
+        desc = 'Toggle Breakpoint',
+      },
+      {
+        '<leader>DB',
+        function()
+          require('dap').set_breakpoint(vim.fn.input 'Breakpoint condition: ')
+        end,
+        desc = 'Set Conditional Breakpoint',
+      },
       { '<F5>', desc = 'DAP Continue' },
       { '<F10>', desc = 'DAP Step Over' },
       { '<F11>', desc = 'DAP Step Into' },
@@ -97,7 +109,6 @@ local spec = {
         lazy = false,
         version = '1.*',
         ---@module 'dap-view'
-        ---@type dapview.Config
         opts = {
           virtual_text = {
             enabled = true,
@@ -210,88 +221,3 @@ local spec = {
     end,
   },
 }
-
-
--- Shim added by opencode
-
-local function gh(repo) return 'https://github.com/' .. repo end
-
-local function process_spec(s)
-  if not s then return end
-
-  -- Init
-  if type(s.init) == 'function' then
-    s.init()
-  end
-  
-  -- Add the main plugin
-  local url = type(s[1]) == 'string' and gh(s[1]) or nil
-  if url then
-    local version = s.version
-    if type(version) == 'string' then
-      if version == '*' then
-        version = nil
-      else
-        version = vim.version.range(version)
-      end
-    end
-    
-    if s.branch then version = s.branch end
-    if s.tag then version = s.tag end
-    if s.commit then version = s.commit end
-
-    if version then
-      vim.pack.add { { src = url, version = version } }
-    else
-      vim.pack.add { url }
-    end
-  end
-
-  -- Add dependencies
-  if s.dependencies then
-    for _, dep in ipairs(s.dependencies) do
-      local dep_url = type(dep) == 'string' and gh(dep) or (type(dep) == 'table' and type(dep[1]) == 'string' and gh(dep[1]) or nil)
-      if dep_url then
-        vim.pack.add { dep_url }
-      end
-    end
-  end
-
-  -- Setup
-  local module_name = s.main
-  if not module_name and type(s[1]) == 'string' then
-    module_name = s[1]:match(".*/(.*)"):gsub("%.nvim$", "")
-  end
-
-  if s.config == true or type(s.config) == 'nil' then
-    if s.opts and module_name then
-      local ok, mod = pcall(require, module_name)
-      if ok and mod.setup then
-        mod.setup(s.opts)
-      end
-    end
-  elseif type(s.config) == 'function' then
-    s.config()
-  end
-
-  -- Keys
-  if s.keys then
-    for _, key in ipairs(s.keys) do
-      local mode = key.mode or 'n'
-      local lhs = key[1]
-      local rhs = key[2]
-      if lhs and rhs then
-        local opts = { desc = key.desc, remap = key.remap, silent = key.silent, expr = key.expr }
-        vim.keymap.set(mode, lhs, rhs, opts)
-      end
-    end
-  end
-end
-
-if spec[1] and type(spec[1]) == 'table' then
-  for _, s in ipairs(spec) do
-    process_spec(s)
-  end
-else
-  process_spec(spec)
-end

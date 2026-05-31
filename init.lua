@@ -47,7 +47,7 @@ vim.api.nvim_create_autocmd('PackChanged', {
       vim.cmd 'TSUpdate'
       return
     end
-    
+
     if name == 'snacks.nvim' then
       if not ev.data.active then
         vim.cmd.packadd 'snacks.nvim'
@@ -57,13 +57,7 @@ vim.api.nvim_create_autocmd('PackChanged', {
   end,
 })
 
-local plugins_dir = vim.fs.joinpath(vim.fn.stdpath 'config', 'lua', 'plugins')
-for file_name, type in vim.fs.dir(plugins_dir) do
-  if type == 'file' and file_name:match '%.lua$' then
-    local module = file_name:gsub('%.lua$', '')
-    require('plugins.' .. module)
-  end
-end
+require('pack_loader').load_all()
 
 vim.cmd.packadd 'nvim.undotree' -- :Undotree  — visual undo-tree navigation
 vim.cmd.packadd 'nvim.tohtml' --  :TOhtml    — export buffer to HTML
