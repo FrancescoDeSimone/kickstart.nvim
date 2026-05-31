@@ -191,6 +191,15 @@ local spec = {
       severity_sort = true,
       float = { border = 'rounded', source = true },
       underline = { severity = vim.diagnostic.severity.ERROR },
+      jump = {
+        on_jump = function(_, bufnr)
+          vim.diagnostic.open_float {
+            bufnr = bufnr,
+            scope = 'cursor',
+            focus = false,
+          }
+        end,
+      },
       signs = vim.g.have_nerd_font and {
         text = {
           [vim.diagnostic.severity.ERROR] = '󰅚 ',
