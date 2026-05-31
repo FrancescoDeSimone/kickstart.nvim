@@ -25,6 +25,7 @@ local spec = {
     },
     ft = { 'rust', 'go', 'python', 'lua', 'cpp', 'c', 'zig' },
     dependencies = {
+      'mason-org/mason.nvim',
       'jay-babu/mason-nvim-dap.nvim',
       {
         'MironPascalCaseFan/debugmaster.nvim',
@@ -227,7 +228,18 @@ local function process_spec(s)
   local url = type(s[1]) == 'string' and gh(s[1]) or nil
   if url then
     local version = s.version
-    if version == '*' then version = nil end
+    if type(version) == 'string' then
+      if version == '*' then
+        version = nil
+      else
+        version = vim.version.range(version)
+      end
+    end
+    
+    if s.branch then version = s.branch end
+    if s.tag then version = s.tag end
+    if s.commit then version = s.commit end
+
     if version then
       vim.pack.add { { src = url, version = version } }
     else
