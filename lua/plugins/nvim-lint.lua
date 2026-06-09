@@ -17,7 +17,7 @@ return {
       lint.linters_by_ft = {
         markdown = { 'markdownlint' },
         dockerfile = { 'hadolint' },
-        terraform = { 'tflint' },
+        -- terraform = { 'tflint' },
         sh = { 'shellcheck' },
         bash = { 'shellcheck' },
         nix = { 'deadnix', 'statix' },
