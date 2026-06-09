@@ -57,7 +57,7 @@ local options = {
   splitbelow = true,
   splitright = true,
   swapfile = false,
-  synmaxcol = 125,
+  synmaxcol = 0,
   tabstop = 2,
   -- NOTE: 'termguicolors' removed — default true since Nvim 0.10
   -- NOTE: 'ttyfast' removed — no-op in Neovim (Vim legacy option)
