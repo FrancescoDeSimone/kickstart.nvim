@@ -37,7 +37,7 @@ return {
       bashls = {},
       zls = {},
       nil_ls = {},
-      terraformls = {},
+      -- terraformls = {},
       marksman = {},
       lua_ls = {
         settings = {
