@@ -17,7 +17,7 @@ return {
       lint.linters_by_ft = {
         markdown = { 'markdownlint' },
         dockerfile = { 'hadolint' },
-        -- terraform = { 'tflint' },
+        terraform = { 'tflint' },
         sh = { 'shellcheck' },
         bash = { 'shellcheck' },
         nix = { 'deadnix', 'statix' },
@@ -36,7 +36,7 @@ return {
           cmd = deadnix_cmd,
         })
       end
-      vim.api.nvim_create_autocmd({ 'BufWritePost', 'InsertLeave' }, {
+      vim.api.nvim_create_autocmd('BufWritePost', {
         group = vim.api.nvim_create_augroup('nvim-lint-auto', { clear = true }),
         callback = function(args)
           if vim.b[args.buf].disable_lint then

@@ -1,4 +1,5 @@
 return {
+  event = { 'BufReadPre', 'BufNewFile' },
   'neovim/nvim-lspconfig',
   dependencies = {
     -- Mason: installs LSPs and related tools.
@@ -37,8 +38,14 @@ return {
       bashls = {},
       zls = {},
       nil_ls = {},
-      -- terraformls = {},
-      marksman = {},
+      terraformls = {},
+      markdown_oxide = {
+        capabilities = {
+          workspace = {
+            didChangeWatchedFiles = { dynamicRegistration = true },
+          },
+        },
+      },
       lua_ls = {
         settings = {
           Lua = {
@@ -56,14 +63,15 @@ return {
       'stylua',
       'gofumpt',
       'hadolint',
-      'tflint',
+      'clang-format',
       'prettierd',
       'shellcheck',
       'shfmt',
       'markdownlint',
-      'clang-format',
+      'tflint',
       'alejandra',
       'ruff',
+      'oxfmt',
     }
 
     require('mason-tool-installer').setup {
@@ -74,7 +82,7 @@ return {
     -- Ensure Mason installs the LSP servers we need.
     require('mason-lspconfig').setup {
       ensure_installed = vim.tbl_keys(servers),
-      automatic_installation = true,
+      automatic_installation = false,
       -- Disable automatic_enable since we manually call vim.lsp.enable() below.
       -- Without this, mason-lspconfig auto-enables ALL installed Mason packages
       -- that have an lspconfig mapping (e.g. stylua, tflint as LSP servers).
@@ -102,7 +110,6 @@ return {
     -- Nvim 0.12: Enable new builtin LSP features
     vim.lsp.codelens.enable(true)
     vim.lsp.document_color.enable(true, nil, { style = 'virtual' })
-    vim.lsp.linked_editing_range.enable()
     -- NOTE: on_type_formatting disabled — it conflicts with snippet expansion.
     -- When expanding multi-line snippets (e.g. 'main' in C), clangd's on-type
     -- formatting triggers on '\n' characters and applies text edits that corrupt
@@ -122,6 +129,7 @@ return {
     --   <C-S>= vim.lsp.buf.signature_help() (insert mode)
     --
     -- We only add keymaps that aren't defaults.
+    local linked_editing_range = require 'vim.lsp.linked_editing_range'
     vim.api.nvim_create_autocmd('LspAttach', {
       group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
       callback = function(event)
@@ -141,6 +149,9 @@ return {
         local client = vim.lsp.get_client_by_id(event.data.client_id)
         if not client then
           return
+        end
+        if (client.name == 'html' or client.name == 'superhtml') and client:supports_method 'textDocument/linkedEditingRange' then
+          linked_editing_range.enable(true, { client_id = client.id })
         end
 
         local map = function(keys, func, desc, mode)
