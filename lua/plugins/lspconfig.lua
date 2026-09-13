@@ -27,7 +27,7 @@ return {
     -- LSP server configurations.
     -- These are merged with nvim-lspconfig's defaults via vim.lsp.config().
     local servers = {
-      clangd = {},
+      clangd = { filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda' } },
       cssls = {},
       gopls = {},
       html = {},
