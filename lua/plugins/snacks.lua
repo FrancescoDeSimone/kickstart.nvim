@@ -9,6 +9,12 @@ return {
       -- (uses default threshold when nil; override to 0.5MB / 500KB)
       filesize = 500 * 1024,
     },
+    terminal = {
+      win = {
+        position = 'bottom',
+        height = 0.3,
+      },
+    },
     picker = {
       enabled = true,
       db = {
