@@ -1,4 +1,5 @@
 return {
+  event = 'VeryLazy',
   'nickjvandyke/opencode.nvim',
   dependencies = {
     {
@@ -40,7 +41,7 @@ return {
     end, { desc = 'Toggle OpenCode' })
 
     vim.keymap.set({ 'n', 'x' }, '<leader>or', function()
-      return require('opencode').operator('@this ')
+      return require('opencode').operator '@this '
     end, { desc = 'Add Range to OpenCode', expr = true })
   end,
 }
