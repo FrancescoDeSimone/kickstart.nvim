@@ -1,6 +1,15 @@
 return {
   {
     'NeogitOrg/neogit',
+    cmd = 'Neogit',
+    keys = {
+      { '<leader>gg', desc = 'Neogit Status' },
+      { '<leader>gc', desc = 'Git Commit' },
+      { '<leader>gp', desc = 'Git Pull' },
+      { '<leader>gP', desc = 'Git Push' },
+      { '<leader>gb', desc = 'Git Branches' },
+      { '<leader>gl', desc = 'Git Log' },
+    },
     dependencies = {
       'nvim-lua/plenary.nvim',
       'sindrets/diffview.nvim',
@@ -33,12 +42,22 @@ return {
 
       map('n', '<leader>gg', neogit.open, { desc = 'Neogit Status' })
 
-      map('n', '<leader>gc', function() neogit.open { 'commit' } end, { desc = 'Git Commit' })
-      map('n', '<leader>gp', function() neogit.open { 'pull' } end, { desc = 'Git Pull' })
-      map('n', '<leader>gP', function() neogit.open { 'push' } end, { desc = 'Git Push' })
+      map('n', '<leader>gc', function()
+        neogit.open { 'commit' }
+      end, { desc = 'Git Commit' })
+      map('n', '<leader>gp', function()
+        neogit.open { 'pull' }
+      end, { desc = 'Git Pull' })
+      map('n', '<leader>gP', function()
+        neogit.open { 'push' }
+      end, { desc = 'Git Push' })
 
-      map('n', '<leader>gb', function() neogit.open { 'branch' } end, { desc = 'Git Branches' })
-      map('n', '<leader>gl', function() neogit.open { 'log' } end, { desc = 'Git Log' })
+      map('n', '<leader>gb', function()
+        neogit.open { 'branch' }
+      end, { desc = 'Git Branches' })
+      map('n', '<leader>gl', function()
+        neogit.open { 'log' }
+      end, { desc = 'Git Log' })
     end,
   },
 
