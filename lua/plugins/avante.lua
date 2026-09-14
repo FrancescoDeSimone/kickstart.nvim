@@ -12,7 +12,7 @@ return {
         model = 'qwen3-local',
         api_key_name = '',
         timeout = 120000,
-        context_window = 16384,
+        context_window = 32768,
         extra_request_body = { temperature = 0.2, top_p = 0.95, max_tokens = 4096 },
       },
     },
